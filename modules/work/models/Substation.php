@@ -1,5 +1,4 @@
 <?php
-
 namespace app\modules\work\models;
 
 use Yii;
@@ -8,28 +7,33 @@ use Yii;
  * This is the model class for table "substation".
  *
  * @property integer $id
- * @property string $shortcode
+ * @property string $code
  * @property string $name_hi
  * @property string $name_en
- * @property integer $type
- * @property string $documents
- * @property integer $division_id
- * @property integer $je_area_id
+ * @property integer $substation_type
  * @property string $voltageratio
  * @property string $mva
+ * @property string $mvarmax
+ * @property string $mvamax
  * @property string $notrf
  * @property string $capacity
- * @property string $mvamax
- * @property string $mvarmax
+ * @property integer $division_id
  * @property string $remarks
- * @property integer $circle_id
  *
  * @property Work[] $works
  * @property Division $division
- * @property Circle $circle
+ * @property Feeder[] $feeders
  */
 class Substation extends \yii\db\ActiveRecord
 {
+    const KV440=0; 
+           public static function substation_type() 
+            { 
+                 return [  
+                 self::KV440 =>\Yii::t('app','440 KV'), 
+                 ]; 
+                 
+            } 
     /**
      * @inheritdoc
      */
@@ -44,12 +48,10 @@ class Substation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'division_id', 'je_area_id', 'circle_id'], 'integer'],
-            [['documents', 'notrf', 'capacity', 'mvamax', 'mvarmax', 'remarks'], 'string'],
-            [['shortcode'], 'string', 'max' => 7],
-            [['name_hi', 'name_en'], 'string', 'max' => 50],
-            [['voltageratio'], 'string', 'max' => 30],
-            [['mva'], 'string', 'max' => 20]
+            [['substation_type', 'division_id'], 'integer'],
+            [['remarks'], 'string'],
+            [['code'], 'string', 'max' => 5],
+            [['name_hi', 'name_en', 'voltageratio', 'mva', 'mvarmax', 'mvamax', 'notrf', 'capacity'], 'string', 'max' => 255]
         ];
     }
 
@@ -60,21 +62,18 @@ class Substation extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'shortcode' => Yii::t('app', 'Shortcode'),
+            'code' => Yii::t('app', 'Code'),
             'name_hi' => Yii::t('app', 'Name Hi'),
             'name_en' => Yii::t('app', 'Name En'),
-            'type' => Yii::t('app', 'Type'),
-            'documents' => Yii::t('app', 'Documents'),
-            'division_id' => Yii::t('app', 'Division ID'),
-            'je_area_id' => Yii::t('app', 'Je Area ID'),
+            'substation_type' => Yii::t('app', 'Substation Type'),
             'voltageratio' => Yii::t('app', 'Voltageratio'),
             'mva' => Yii::t('app', 'Mva'),
+            'mvarmax' => Yii::t('app', 'Mvarmax'),
+            'mvamax' => Yii::t('app', 'Mvamax'),
             'notrf' => Yii::t('app', 'Notrf'),
             'capacity' => Yii::t('app', 'Capacity'),
-            'mvamax' => Yii::t('app', 'Mvamax'),
-            'mvarmax' => Yii::t('app', 'Mvarmax'),
+            'division_id' => Yii::t('app', 'Division ID'),
             'remarks' => Yii::t('app', 'Remarks'),
-            'circle_id' => Yii::t('app', 'Circle ID'),
         ];
     }
 
@@ -97,8 +96,140 @@ class Substation extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCircle()
+    public function getFeeders()
     {
-        return $this->hasOne(Circle::className(), ['id' => 'circle_id']);
+        return $this->hasMany(Feeder::className(), ['substation_id' => 'id']);
     }
+	/*
+	*@return form of individual elements
+	*/
+	public function showForm($form,$attribute)
+	{
+		switch ($attribute)
+		  {
+		   
+									
+			case 'id':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'code':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'name_hi':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'name_en':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'substation_type':
+			   return  $form->field($this,$attribute)->dropDownList($this->substation_type(),['prompt'=>'None']);
+                
+			    break;
+									
+			case 'voltageratio':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'mva':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'mvarmax':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'mvamax':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'notrf':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'capacity':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'division_id':
+			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Division::find()->asArray()->all(),"id","name_".Yii::$app->language),["prompt"=>"None.."]);
+			    
+			    break;
+									
+			case 'remarks':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+			 
+			default:
+			break;
+		  }
+    }
+	/*
+	*@return form of individual elements
+	*/
+	public function showValue($attribute)
+	{
+	    $name='name_'.Yii::$app->language;
+		switch ($attribute)
+		  {
+		   
+									
+			case 'id':
+			   return $this->id;			    break;
+									
+			case 'code':
+			   return $this->code;			    break;
+									
+			case 'name_hi':
+			   return $this->name_hi;			    break;
+									
+			case 'name_en':
+			   return $this->name_en;			    break;
+									
+			case 'substation_type':
+			   return $this->substation_type;			    break;
+									
+			case 'voltageratio':
+			   return $this->voltageratio;			    break;
+									
+			case 'mva':
+			   return $this->mva;			    break;
+									
+			case 'mvarmax':
+			   return $this->mvarmax;			    break;
+									
+			case 'mvamax':
+			   return $this->mvamax;			    break;
+									
+			case 'notrf':
+			   return $this->notrf;			    break;
+									
+			case 'capacity':
+			   return $this->capacity;			    break;
+									
+			case 'division_id':
+			   return Division::findOne($this->division_id)->$name;			    break;
+									
+			case 'remarks':
+			   return $this->remarks;			    break;
+			 
+			default:
+			break;
+		  }
+    }
+	
 }

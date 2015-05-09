@@ -1,11 +1,11 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\work\controllers;
 
 use Yii;
-use app\models\Circle;
+use app\modules\work\models\Circle;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 
 use yii\filters\VerbFilter;
@@ -61,9 +61,7 @@ class CircleController extends Controller
      */
     public function actionCreate()
     {
-		if (!Yii::$app->user->can('operator'))
-			throw new NotFoundHttpException('The requested page does not exist.');
-        $model = new Circle();
+		$model = new Circle();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

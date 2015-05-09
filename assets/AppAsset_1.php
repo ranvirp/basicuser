@@ -8,6 +8,7 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
+use Yii;
 
 /**
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -26,15 +27,15 @@ class AppAsset_1 extends AssetBundle
     ];
     public $js = [
         'solid/js/jquery.hoverdir.js',
-'solid/js/custom.js',
-'solid/js/jquery.prettyPhoto.js',
-'solid/js/retina-1.1.0.js',
-'solid/js/jquery.hoverex.min.js',
-'solid/js/jquery.isotope.min.js'
+        'solid/js/custom.js',
+        'solid/js/jquery.prettyPhoto.js',
+        'solid/js/retina-1.1.0.js',
+        'solid/js/jquery.hoverex.min.js',
+        'solid/js/jquery.isotope.min.js',
 		//'bower/sbadmin2/metisMenu/dist/metisMenu.js'
 		
-		//'https://www.google.com/jsapi',
-		//'js/googletransliterate.js'
+		'https://www.google.com/jsapi',
+		'js/googletransliterate.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -32,7 +32,8 @@ class Division extends \yii\db\ActiveRecord
     {
         return [
             [['circle_id'], 'integer'],
-            [['name_hi', 'name_en'], 'string', 'max' => 200]
+            [['name_hi', 'name_en'], 'string', 'max' => 200],
+            [['code','circle_id','name_hi','name_en'],'required'],
         ];
     }
 

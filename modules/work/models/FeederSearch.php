@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\work\models;
 
 use Yii;
 use yii\base\Model;
@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\modules\work\models\Feeder;
 
 /**
- * FeederSearch represents the model behind the search form about `app\models\Feeder`.
+ * FeederSearch represents the model behind the search form about `app\modules\work\models\Feeder`.
  */
 class FeederSearch extends Feeder
 {
@@ -18,8 +18,8 @@ class FeederSearch extends Feeder
     public function rules()
     {
         return [
-            [['id', 'circle_id', 'substation_id'], 'integer'],
-            [['shortcode', 'name_en', 'substation_name', 'pwtrfcty', 'pwtrfid', 'typeofconductor', 'peakdemand', 'transformerdesc', 'totalcapacity'], 'safe'],
+            [['id', 'substation_id', 'typeofconductor'], 'integer'],
+            [['code', 'name_hi', 'name_en', 'description', 'pwtrfcty', 'pwtrfid', 'peakdemand', 'notrf', 'capacity', 'remarks'], 'safe'],
         ];
     }
 
@@ -57,19 +57,20 @@ class FeederSearch extends Feeder
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'circle_id' => $this->circle_id,
             'substation_id' => $this->substation_id,
+            'typeofconductor' => $this->typeofconductor,
         ]);
 
-        $query->andFilterWhere(['like', 'shortcode', $this->shortcode])
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'name_hi', $this->name_hi])
             ->andFilterWhere(['like', 'name_en', $this->name_en])
-            ->andFilterWhere(['like', 'substation_name', $this->substation_name])
+            ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'pwtrfcty', $this->pwtrfcty])
             ->andFilterWhere(['like', 'pwtrfid', $this->pwtrfid])
-            ->andFilterWhere(['like', 'typeofconductor', $this->typeofconductor])
             ->andFilterWhere(['like', 'peakdemand', $this->peakdemand])
-            ->andFilterWhere(['like', 'transformerdesc', $this->transformerdesc])
-            ->andFilterWhere(['like', 'totalcapacity', $this->totalcapacity]);
+            ->andFilterWhere(['like', 'notrf', $this->notrf])
+            ->andFilterWhere(['like', 'capacity', $this->capacity])
+            ->andFilterWhere(['like', 'remarks', $this->remarks]);
 
         return $dataProvider;
     }

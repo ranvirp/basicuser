@@ -20,7 +20,9 @@
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "~2.0",
         "kartik-v/yii2-widget-fileinput": "*",
-        "2amigos/yii2-leaflet-extension": "*"
+        "2amigos/yii2-leaflet-extension": "*",
+        "kartik-v/yii2-grid": "*",
+        "kartik-v/yii2-mpdf": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

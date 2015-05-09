@@ -1,11 +1,11 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\work\controllers;
 
 use Yii;
-use app\models\AEArea;
+use app\modules\work\models\AEArea;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

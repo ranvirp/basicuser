@@ -55,7 +55,10 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
     ],
     'modules'=>['users'=>['class'=>'app\modules\users\Module'],
-    'reply'=>['class'=>'app\modules\reply\Module']],
+    'reply'=>['class'=>'app\modules\reply\Module'],
+    'work'=>['class'=>'app\modules\work\Module'],
+    'gridview'=>['class'=>'kartik\grid\Module']
+    ],
     'params' => $params,
 ];
 
@@ -66,6 +69,24 @@ if (YII_ENV_DEV) {
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = 'yii\gii\Module';
+    $config['modules']['gii'] = ['class' => 'yii\gii\Module',
+            'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.178.20'],
+            'generators' => [ //here
+                'crud' => [ // generator name
+                    'class' => 'yii\gii\generators\crud\Generator', // generator class
+                    'templates' => [ //setting for out templates
+                        'myCrud' => '@app/giitemplatesNew/crud/default', // template name => path to template
+                    ]
+                ],
+                'model' => [ // generator name
+                    'class' => '\app\giiTemplatesNew\model\Generator', // generator class
+                    'templates' => [ //setting for out templates
+                        'myModel' => '@app/giitemplatesNew/model/default', // template name => path to template
+                    ]
+                ],
+                
+            ],
+            ];
 }
 
 return $config;

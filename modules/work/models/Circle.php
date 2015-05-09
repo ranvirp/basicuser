@@ -9,7 +9,7 @@ use Yii;
  * @property integer $id
  * @property string $name_hi
  * @property string $name_en
- * @property string $shortcode
+ * @property string $code
  *
  * @property Division[] $divisions
  * @property Substation[] $substations
@@ -31,7 +31,8 @@ class Circle extends \yii\db\ActiveRecord
     {
         return [
             [['name_hi', 'name_en'], 'string', 'max' => 200],
-            [['shortcode'], 'string', 'max' => 7]
+            [['code'], 'string', 'max' => 7],
+             [['code','name_hi','name_en'],'required'],
         ];
     }
 
@@ -42,9 +43,9 @@ class Circle extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name_hi' => Yii::t('app', 'Name Hi'),
-            'name_en' => Yii::t('app', 'Name En'),
-            'shortcode' => Yii::t('app', 'Shortcode'),
+            'name_hi' => Yii::t('app', 'Name in Hindi'),
+            'name_en' => Yii::t('app', 'Name English'),
+            'code' => Yii::t('app', 'Code'),
         ];
     }
 
@@ -78,7 +79,7 @@ class Circle extends \yii\db\ActiveRecord
 			    break;
 									
 			case 'name_hi':
-			   return  $form->field($this,$attribute)->textInput();
+			   return  $form->field($this,$attribute)->textInput(['class'=>'hindiinput form-control']);
 			    
 			    break;
 									

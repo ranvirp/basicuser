@@ -1,12 +1,12 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\work\controllers;
 
 use Yii;
 use app\common\Utility;
-use app\models\Division;
-use app\models\DivisionSearch;
-use yii\web\Controller;
+use app\modules\work\models\Division;
+use app\modules\work\models\DivisionSearch;
+use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -68,9 +68,9 @@ class DivisionController extends Controller
  
         if ($model->load(Yii::$app->request->post()))
         {
-           if (array_key_exists('app\models\Division',Utility::rules()))
+           if (array_key_exists('app\modules\work\models\Division',Utility::rules()))
             foreach ($model->attributes as $attribute)
-            if (Utility::rules('app\models\Division') && array_key_exists($attribute,Utility::rules()['app\models\Division']))
+            if (Utility::rules('app\modules\work\models\Division') && array_key_exists($attribute,Utility::rules()['app\models\Division']))
             $model->validators->append(
                \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\models\Division'][$model->$attribute]['required'])
             );
@@ -103,7 +103,7 @@ class DivisionController extends Controller
  
         if ($model->load(Yii::$app->request->post()))
         {
-        if (array_key_exists('app\models\Division',Utility::rules()))
+        if (array_key_exists('app\modules\work\models\Division',Utility::rules()))
            
             foreach ($model->attributes as $attribute)
             if (array_key_exists($attribute,Utility::rules()['app\models\Division']))

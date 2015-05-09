@@ -2,6 +2,7 @@
 namespace app\modules\work\models;
 
 use Yii;
+use app\modules\users\models\Designation;
 
 /**
  * This is the model class for table "work".
@@ -76,12 +77,12 @@ class Work extends WorkActiveRecord
     {
         return [
             [['name_hi', 'name_en','remarks'], 'string'],
-            [['agency_id', 'dept_id', 'work_type_id', 'status', 'scheme_id', 'work_admin', $this->level[0].'_id', $this->level[1].'_id',$this->level[2].'_id',$this->level[3].'_id'], 'integer'],
+            [['agency_id', 'fundingdept_id', 'work_type_id', 'status', 'scheme_id', 'work_admin', $this->levels[0].'_id', $this->levels[1].'_id',$this->levels[2].'_id',$this->levels[3].'_id'], 'integer'],
             [['work_id'], 'safe'],
             [['totvalue', 'gpslat', 'gpslong','phy','fin'], 'number'],
             [['address'], 'string', 'max' => 250],
 			
-			[['name_en','work_type_id','work_id','scheme_id','totvalue',$this->level[1].'_id'],'required'],
+			[['name_en','work_type_id','work_id','scheme_id','totvalue',$this->levels[1].'_id'],'required'],
         ];
     }
 
@@ -106,11 +107,8 @@ class Work extends WorkActiveRecord
             'work_admin' => Yii::t('app', 'Work Admin'),
             'substation_id' => Yii::t('app', 'Substation '),
             'division_id' => Yii::t('app', 'Division'),
-            'work_id' => Yii::t('app', 'Work'),
+            'workid' => Yii::t('app', 'Work ID(unique)'),
             'sanction_id'=>Yii::t('app','Sanction Id'),
-            'phy' => Yii::t('app', 'Physical Progress'),
-            'fin' => Yii::t('app', 'Financial Progress'),
-            'dateofprogress' => Yii::t('app', 'Date of Progress'),
             'remarks' => Yii::t('app', 'Remarks'),
             'feeder_id' => Yii::t('app', 'Feeder '),
         ];
@@ -124,14 +122,7 @@ class Work extends WorkActiveRecord
         return $this->hasMany(Material::className(), ['work_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTenders()
-    {
-        return $this->hasMany(Tender::className(), ['work_id' => 'id']);
-    }
-
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -151,7 +142,7 @@ class Work extends WorkActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgency0()
+    public function getAgency()
     {
         return $this->hasOne(Agency::className(), ['id' => 'agency']);
     }
@@ -159,9 +150,9 @@ class Work extends WorkActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDept()
+    public function getFundingDept()
     {
-        return $this->hasOne(Department::className(), ['id' => 'dept_id']);
+        return $this->hasOne(Department::className(), ['id' => 'fundingdept_id']);
     }
 
     /**
@@ -221,7 +212,7 @@ class Work extends WorkActiveRecord
 		   
 									
 			case 'id':
-			   return  $form->field($this,$attribute)->textInput();
+			   return  $form->field($this,$attribute)->hiddenInput();
 			    
 			    break;
 									
@@ -235,40 +226,11 @@ class Work extends WorkActiveRecord
 			    
 			    break;
 									
-			case 'agency':
+			case 'agency_id':
 			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Agency::find()->asArray()->all(),"id","name_".Yii::$app->language));
 			    
 			    break;
-									
-			case 'dateofsanction':
-			   return  
-			             $form->field($this, "dateofsanction")->widget(\kartik\widgets\DatePicker::classname(), [
-'options' => ['placeholder' => 'Enter'. $this->attributeLabels()["dateofsanction"]." ..."],
-'pluginOptions' => [
-'autoclose'=>true
-]
-]); 			    
-			    break;
-									
-			case 'dateoffundsreceipt':
-			   return  
-			             $form->field($this, "dateoffundsreceipt")->widget(\kartik\widgets\DatePicker::classname(), [
-'options' => ['placeholder' => 'Enter'. $this->attributeLabels()["dateoffundsreceipt"]." ..."],
-'pluginOptions' => [
-'autoclose'=>true
-]
-]); 			    
-			    break;
-									
-			case 'dateofstart':
-			   return  
-			             $form->field($this, "dateofstart")->widget(\kartik\widgets\DatePicker::classname(), [
-'options' => ['placeholder' => 'Enter'. $this->attributeLabels()["dateofstart"]." ..."],
-'pluginOptions' => [
-'autoclose'=>true
-]
-]); 			    
-			    break;
+			
 									
 			case 'totvalue':
 			   return  $form->field($this,$attribute)->textInput();
@@ -304,10 +266,7 @@ class Work extends WorkActiveRecord
 			    
 			    break;
 									
-			case 'loc':
-			   return  $form->field($this,$attribute)->textInput();
-			    
-			    break;
+			
 									
 			case 'status':
 			   return  $form->field($this,$attribute)->dropDownList($this->status(),['prompt'=>'None']);
@@ -324,15 +283,7 @@ class Work extends WorkActiveRecord
 			    
 			    break;
 									
-			case 'fromloc':
-			   return  $form->field($this,$attribute)->textInput();
-			    
-			    break;
-									
-			case 'toloc':
-			   return  $form->field($this,$attribute)->textInput();
-			    
-			    break;
+	
 									
 			case 'substation_id':
 			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Substation::find()->asArray()->all(),"id","name_".Yii::$app->language));
@@ -344,35 +295,15 @@ class Work extends WorkActiveRecord
 			    
 			    break;
 									
-			case 'package_no':
+
+									
+			case 'workid':
 			   return  $form->field($this,$attribute)->textInput();
 			    
 			    break;
 									
-			case 'work_id':
-			   return  $form->field($this,$attribute)->textInput();
-			    
-			    break;
-									
-			case 'phy':
-			   return  $form->field($this,$attribute)->textInput();
-			    
-			    break;
-									
-			case 'fin':
-			   return  $form->field($this,$attribute)->textInput();
-			    
-			    break;
-									
-			case 'dateofprogress':
-			   return  
-			             $form->field($this, "dateofprogress")->widget(\kartik\widgets\DatePicker::classname(), [
-'options' => ['placeholder' => 'Enter'. $this->attributeLabels()["dateofprogress"]." ..."],
-'pluginOptions' => [
-'autoclose'=>true
-]
-]); 			    
-			    break;
+						
+			
 									
 			case 'remarks':
 			   return  $form->field($this,$attribute)->textInput();
@@ -410,15 +341,7 @@ class Work extends WorkActiveRecord
 			case 'agency':
 			   return Agency::findOne($this->agency)->$name;			    break;
 									
-			case 'dateofsanction':
-			   return $this->dateofsanction;			    break;
-									
-			case 'dateoffundsreceipt':
-			   return $this->dateoffundsreceipt;			    break;
-									
-			case 'dateofstart':
-			   return $this->dateofstart;			    break;
-									
+			
 			case 'totvalue':
 			   return $this->totvalue;			    break;
 									
@@ -437,9 +360,6 @@ class Work extends WorkActiveRecord
 			case 'gpslong':
 			   return $this->gpslong;			    break;
 									
-			case 'loc':
-			   return $this->loc;			    break;
-									
 			case 'status':
 			   return $this->status;			    break;
 									
@@ -449,20 +369,13 @@ class Work extends WorkActiveRecord
 			case 'work_admin':
 			   return Designation::findOne($this->work_admin)->$name;			    break;
 									
-			case 'fromloc':
-			   return $this->fromloc;			    break;
-									
-			case 'toloc':
-			   return $this->toloc;			    break;
-									
+			
 			case 'substation_id':
 			   return Substation::findOne($this->substation_id)->$name;			    break;
 									
 			case 'division_id':
 			   return Division::findOne($this->division_id)->$name;			    break;
 									
-			case 'package_no':
-			   return $this->package_no;			    break;
 									
 			case 'work_id':
 			   return $this->work_id;			    break;
@@ -472,10 +385,7 @@ class Work extends WorkActiveRecord
 									
 			case 'fin':
 			   return $this->fin;			    break;
-									
-			case 'dateofprogress':
-			   return $this->dateofprogress;			    break;
-									
+								
 			case 'remarks':
 			   return $this->remarks;			    break;
 									

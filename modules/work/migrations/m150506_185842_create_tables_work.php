@@ -7,6 +7,8 @@ class m150506_185842_create_tables_work extends Migration
 {
     public function safeUp()
     {
+      $tableOptions = null;
+      
              if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
@@ -16,10 +18,10 @@ class m150506_185842_create_tables_work extends Migration
             'workid'=>Schema::TYPE_STRING.' NOT NULL',
             'sanctionid'=>Schema::TYPE_STRING.' DEFAULT NULL',
             'name_hi'=>Schema::TYPE_STRING,
-            'name_en'=>Schema::TYPE_STRING,
+            'name_en'=>Schema::TYPE_STRING.' NOT NULL',
             'description'=>Schema::TYPE_TEXT,
             'agency_id'=>Schema::TYPE_INTEGER,
-            'work_type_id'=>Schema::TYPE_INTEGER,
+            'work_type_id'=>Schema::TYPE_INTEGER.' NOT NULL',
             'totvalue'=>Schema::TYPE_DOUBLE,
             'fundingdept_id'=>Schema::TYPE_INTEGER,
             'scheme_id'=>Schema::TYPE_INTEGER,
@@ -43,6 +45,7 @@ class m150506_185842_create_tables_work extends Migration
             'fin'=>Schema::TYPE_INTEGER,
             ],$tableOptions);
          $this->createTable('{{%work_type}}', [
+            'id'=>Schema::TYPE_PK,
             'code' => Schema::TYPE_STRING.'(5)',
             'name_hi'=>Schema::TYPE_STRING,
             'name_en'=>Schema::TYPE_STRING,
@@ -51,16 +54,16 @@ class m150506_185842_create_tables_work extends Migration
             $this->createTable('{{%substation}}', [
             'id'=>Schema::TYPE_PK,
             'code' => Schema::TYPE_STRING.'(5)',
-            'name_hi'=>Schema::TYPE_STRING,
-            'name_en'=>Schema::TYPE_STRING,
-            'substation_type'=>Schema::TYPE_SMALLINT,
+            'name_hi'=>Schema::TYPE_STRING.' NOT NULL',
+            'name_en'=>Schema::TYPE_STRING.' NOT NULL',
+            'substation_type'=>Schema::TYPE_SMALLINT.' NOT NULL',
             'voltageratio'=>Schema::TYPE_STRING,
             'mva'=>Schema::TYPE_STRING,
             'mvarmax'=>Schema::TYPE_STRING,
             'mvamax'=>Schema::TYPE_STRING,
             'notrf'=>Schema::TYPE_STRING,
             'capacity'=>Schema::TYPE_STRING,
-            'division_id'=>Schema::TYPE_STRING,
+            'division_id'=>Schema::TYPE_INTEGER,
             'remarks'=>Schema::TYPE_TEXT,
             ],$tableOptions);
             $this->createTable('{{%feeder}}', [
@@ -91,6 +94,12 @@ class m150506_185842_create_tables_work extends Migration
             'totalcost'=>Schema::TYPE_DOUBLE,
             
             ],$tableOptions);
+             $this->createTable('{{%agency}}',[
+            'id'=>Schema::TYPE_PK,
+            'name_hi'=>Schema::TYPE_STRING,
+            'name_en'=>Schema::TYPE_STRING,
+            
+           ],$tableOptions);
              $this->createTable('{{%circle}}', [
              'id'=>Schema::TYPE_PK,
             'code' => Schema::TYPE_STRING.'(5)',
@@ -137,20 +146,21 @@ class m150506_185842_create_tables_work extends Migration
         $this->createTable('{{%material_requirement}}',[
             'id'=>Schema::TYPE_PK,
             'work_id'=>Schema::TYPE_INTEGER,
-            'material_type'=>Schema::TYPE_INTEGER,
+            'material_type_id'=>Schema::TYPE_INTEGER,
             'qty'=>Schema::TYPE_DOUBLE,
             'value'=>Schema::TYPE_DOUBLE,
+            'issuedqty'=>Schema::TYPE_DOUBLE,
             
            ],$tableOptions);
            $authManager=Yii::$app->authManager;
          if ($authManager)
           {
            $workadminrole=$authManager->createRole('workadmin');
-           $authManager->add($webadminrole);
+           $authManager->add($workadminrole);
            
            $permissions=['edit','delete','create','view','index','update'];
             $tables=['work','work_progress','work_type','scheme','material_requirement','material_type',
-       'division','circle','feeder','substation'];
+       'division','circle','feeder','substation','ae_area','je_area'];
      foreach($tables as $table)
             {
               foreach($permissions as $permission)
@@ -164,8 +174,9 @@ class m150506_185842_create_tables_work extends Migration
                     $authManager->addChild($workadminrole,$authpermission);
                 }
             }
+          }
       $this->addForeignKey('work_agency_fkey','{{%work}}','agency_id','{{%agency}}','id');
-      $this->addForeignKey('work_work_type_fkey','{{%work}}','work_type_ie','{{%work_type}}','id');
+      $this->addForeignKey('work_work_type_fkey','{{%work}}','work_type_id','{{%work_type}}','id');
       $this->addForeignKey('work_substation_fkey','{{%work}}','substation_id','{{%substation}}','id');
       $this->addForeignKey('work_division_fkey','{{%work}}','division_id','{{%division}}','id');
       $this->addForeignKey('work_fundingdept_fkey','{{%work}}','fundingdept_id','{{%department}}','id');
@@ -178,7 +189,7 @@ class m150506_185842_create_tables_work extends Migration
       $this->addForeignKey('division_circle_fkey','{{%division}}','circle_id','{{%circle}}','id');
       $this->addForeignKey('aearea_division_fkey','{{%ae_area}}','division_id','{{%division}}','id');
       $this->addForeignKey('jearea_division_fkey','{{%je_area}}','division_id','{{%division}}','id');
-      $this->addForeignKey('materialrequirement_work_fkey','{{%material_requirement}}','division_id','{{%division}}','id');
+      $this->addForeignKey('materialrequirement_work_fkey','{{%material_requirement}}','work_id','{{%division}}','id');
        $this->addForeignKey('materialrequirement_materialtype_fkey','{{%material_requirement}}','material_type_id','{{%material_type}}','id');
      
       
@@ -214,6 +225,7 @@ class m150506_185842_create_tables_work extends Migration
       $this->dropTable('{{%circle}}');
       $this->dropTable('{{%substation}}');
       $this->dropTable('{{%feeder}}');
+      $this->dropTable('{{%agency}}');
 
 
     }

@@ -1,11 +1,12 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\work\controllers;
 
 use Yii;
-use app\models\Feeder;
-use app\models\FeederSearch;
-use yii\web\Controller;
+use app\common\Utility;
+use app\modules\work\models\Feeder;
+use app\modules\work\models\FeederSearch;
+use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -33,31 +34,13 @@ class FeederController extends Controller
     public function actionIndex()
     {
         $searchModel = new FeederSearch();
-		 /*
-		$x=Yii::$app->request->post('Feeder');
-		$model=\app\models\Feeder::findOne($x['id']);
-		if ($model && $model->load(Yii::$app->request->post()))
-			if(!$model->save())
-			{
-				print_r( $model->errors);
-				print_r($model);
-				exit;
-			}
-		  * 
-		  */
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index_update', [
-            //'searchModel' => $searchModel,
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-	public function actionAjaxupdate()
-	{
-		$model = new Feeder();
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return;
-		}
-	}
 
     /**
      * Displays a single Feeder model.
@@ -76,17 +59,35 @@ class FeederController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    
     public function actionCreate()
     {
+       
+       
         $model = new Feeder();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+ 
+        if ($model->load(Yii::$app->request->post()))
+        {
+           if (array_key_exists('app\modules\work\models\Feeder',Utility::rules()))
+            foreach ($model->attributes as $attribute)
+            if (Utility::rules('app\modules\work\models\Feeder') && array_key_exists($attribute,Utility::rules()['app\modules\work\models\Feeder']))
+            $model->validators->append(
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Feeder'][$model->$attribute]['required'])
+            );
+            if ($model->save())
+            $model = new Feeder();; //reset model
         }
+ 
+        $searchModel = new FeederSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
+
     }
 
     /**
@@ -95,19 +96,35 @@ class FeederController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+        public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+         $model = $this->findModel($id);
+       
+ 
+        if ($model->load(Yii::$app->request->post()))
+        {
+        if (array_key_exists('app\modules\work\models\Feeder',Utility::rules()))
+           
+            foreach ($model->attributes as $attribute)
+            if (array_key_exists($attribute,Utility::rules()['app\modules\work\models\Feeder']))
+            $model->validators->append(
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Feeder'][$model->$attribute]['required'])
+            );
+            if ($model->save())
+            $model = new Feeder();; //reset model
         }
-    }
+ 
+       $searchModel = new FeederSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
 
+    }
     /**
      * Deletes an existing Feeder model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -136,21 +153,4 @@ class FeederController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-	/*
-	 * Returns list of divisions in a circle in json form
-	 */
-	public function actionGet()
-	{
-		$lang=Yii::$app->language;
-		$substation=Yii::$app->request->post('depdrop_parents')[0];
-		$y=[];
-		foreach (\yii\helpers\ArrayHelper::map(\app\models\Feeder::find()->where('substation_id=:substation_id',[':substation_id'=>$substation])->asArray()->all(),'id','name_'.$lang) as $id=>$name)
-		{
-			$x['id']=$id;
-			$x['name']=$name;
-			$y[]=$x;
-		}
-		echo \yii\helpers\Json::encode(['output'=>$y,'selected'=>'']);
-		return;
-	}
 }
