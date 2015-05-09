@@ -1,0 +1,19 @@
+#version 0
+1. mkdir runtime
+2. make all folders writable
+3. mkdir web/assets
+4. Run migration for rbac
+  ./yii migrate --migrationPath=@yii/rbac/migrations
+5.Run migration for users
+  ./yii migrate --migrationPath=modules/users/migrations
+6.Run migration for work
+  ./yii migrate --migrationPath=modules/work/migrations
+7. run localhost/basicuser/web/index.php
+
+8. login with admin and password admin
+
+9. create designation with localhost/basicuser/index.php/users/designation
+
+and so on
+
+

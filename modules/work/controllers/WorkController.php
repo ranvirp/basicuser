@@ -6,7 +6,7 @@ use Yii;
 use app\common\Utility;
 use app\modules\work\models\Work;
 use app\modules\work\models\WorkSearch;
-use yii\web\Controller;
+use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \app\modules\work\models\MaterialRequirement;

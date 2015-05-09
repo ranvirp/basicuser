@@ -8,33 +8,7 @@ use app\common\Utility;
 /* @var $model app\models\Work */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<style>
-.work-form
- {
-    box-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);
-    
-    
- }
- .form-title
-  {
-    background-color: #3c68b9;
-    border-radius: 4px 4px 0 0;
-    color: rgb(230, 230, 230);
-    font-family: Arial,sans-serif;
-    font-weight: normal;
-    padding: 9px 3px 6px;
-  }
-  .form-title-span
-  {
-    margin-left: 12px;
-  }
-  .form-horizontal
-   {
-    display:block;
-    padding:20px;
-    font-size:10px;
-   }
-</style>
+
 <?php
  
  $changeattribute='work_type_id';
