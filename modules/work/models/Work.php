@@ -3,6 +3,7 @@ namespace app\modules\work\models;
 
 use Yii;
 use app\modules\users\models\Designation;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "work".
@@ -51,7 +52,7 @@ class Work extends WorkActiveRecord
 	 protected $locationClasses=['\app\modules\work\models\Circle','\app\modules\work\models\Division',
     '\app\modules\work\models\SubStation',
     '\app\modules\work\models\Feeder'];
-    protected $levels=['circle','division','substation','feeder'];
+    protected $levels=['division','substation','feeder'];
  	 public static function status()
 	 {
 		  return [ 
@@ -77,15 +78,20 @@ class Work extends WorkActiveRecord
     {
         return [
             [['name_hi', 'name_en','remarks'], 'string'],
-            [['agency_id', 'fundingdept_id', 'work_type_id', 'status', 'scheme_id', 'work_admin', $this->levels[0].'_id', $this->levels[1].'_id',$this->levels[2].'_id',$this->levels[3].'_id'], 'integer'],
-            [['work_id'], 'safe'],
-            [['totvalue', 'gpslat', 'gpslong','phy','fin'], 'number'],
+            [['agency_id', 'fundingdept_id', 'work_type_id', 'status', 'scheme_id', 'work_admin', $this->levels[0].'_id', $this->levels[1].'_id',$this->levels[2].'_id'], 'integer'],
+            [['workid'], 'unique'],
+            [['totvalue', 'gpslat', 'gpslong'], 'number'],
             [['address'], 'string', 'max' => 250],
 			
-			[['name_en','work_type_id','work_id','scheme_id','totvalue',$this->levels[1].'_id'],'required'],
+			[['name_en','work_type_id','workid','scheme_id','totvalue',$this->levels[1].'_id'],'required'],
         ];
     }
-
+public function behaviors()
+{
+    return [
+        TimestampBehavior::className(),
+    ];
+}
     /**
      * @inheritdoc
      */
@@ -144,7 +150,7 @@ class Work extends WorkActiveRecord
      */
     public function getAgency()
     {
-        return $this->hasOne(Agency::className(), ['id' => 'agency']);
+        return $this->hasOne(Agency::className(), ['id' => 'agency_id']);
     }
 
     /**
@@ -377,14 +383,10 @@ class Work extends WorkActiveRecord
 			   return Division::findOne($this->division_id)->$name;			    break;
 									
 									
-			case 'work_id':
-			   return $this->work_id;			    break;
+			case 'workid':
+			   return $this->workid;			    break;
 									
-			case 'phy':
-			   return $this->phy;			    break;
-									
-			case 'fin':
-			   return $this->fin;			    break;
+			
 								
 			case 'remarks':
 			   return $this->remarks;			    break;

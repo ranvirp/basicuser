@@ -21,9 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		['class' => '\yii\grid\SerialColumn'],
 		['header' => 'Division',
 			'attribute' => 'division_id',
-			'filter' => \yii\helpers\ArrayHelper::map(\app\models\Division::find()->asArray()->all(), 'id', 'name_en'),
+			'filter' => \yii\helpers\ArrayHelper::map(\app\modules\work\models\Division::find()->asArray()->all(), 'id', 'name_en'),
 			'value' => function($model, $key, $index, $column) {
-			$div = \app\models\Division::findOne($model->division_id);
+			$div = \app\modules\work\models\Division::findOne($model->division_id);
 			return $div ? $div->name_en : 'Not found';
 		}
 		],
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		[
 			'header' => 'Work Type',
 			'attribute' => 'work_type_id',
-			'filter' => \yii\helpers\ArrayHelper::map(\app\models\WorkType::find()->asArray()->all(), 'id', 'name_en'),
+			'filter' => \yii\helpers\ArrayHelper::map(\app\modules\work\models\WorkType::find()->asArray()->all(), 'id', 'name_en'),
 			'value' => function($model, $key, $index, $column) {
 			$name = 'name_' . Yii::$app->language;
 			return $model->workType ? $model->workType->$name : '';
@@ -40,13 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
 		'address',
 		['header' => 'Agency', 'value' => function($model, $key, $index, $column) {
 			$name = 'name_' . Yii::$app->language;
-			return $model->agency0 ? $model->agency0->$name : '';
+			return $model->agency ? $model->agency->$name : '';
 		},],
 		'totvalue',
-		'dateofsanction',
 		['class' => 'yii\grid\ActionColumn'],
 	];
-	$searchModel = new \app\models\WorkSearch;
+	$searchModel = new \app\modules\work\models\WorkSearch;
 	echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,

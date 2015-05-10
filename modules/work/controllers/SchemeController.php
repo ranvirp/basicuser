@@ -3,9 +3,10 @@
 namespace app\modules\work\controllers;
 
 use Yii;
+use app\common\Utility;
 use app\modules\work\models\Scheme;
-use app\models\SchemeSearch;
-use yii\web\Controller;
+use app\modules\work\models\SchemeSearch;
+use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -58,17 +59,39 @@ class SchemeController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    
     public function actionCreate()
     {
+       
+       
         $model = new Scheme();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+ 
+        if ($model->load(Yii::$app->request->post()))
+        {
+           if (array_key_exists('app\modules\work\models\Scheme',Utility::rules()))
+            foreach ($model->attributes as $attribute)
+            if (Utility::rules('app\modules\work\models\Scheme') && array_key_exists($attribute,Utility::rules()['app\modules\work\models\Scheme']))
+            $model->validators->append(
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Scheme'][$model->$attribute]['required'])
+            );
+        if (count($model->documents)>0)
+            $model->documents=implode(",",$model->documents);
+            else
+                $model->documents='';
+            if ($model->save())
+            $model = new Scheme();; //reset model
         }
+ 
+        $searchModel = new SchemeSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
+
     }
 
     /**
@@ -77,19 +100,35 @@ class SchemeController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+        public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+         $model = $this->findModel($id);
+       
+ 
+        if ($model->load(Yii::$app->request->post()))
+        {
+        if (array_key_exists('app\modules\work\models\Scheme',Utility::rules()))
+           
+            foreach ($model->attributes as $attribute)
+            if (array_key_exists($attribute,Utility::rules()['app\modules\work\models\Scheme']))
+            $model->validators->append(
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Scheme'][$model->$attribute]['required'])
+            );
+            if ($model->save())
+            $model = new Scheme();; //reset model
         }
-    }
+ 
+       $searchModel = new SchemeSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
 
+    }
     /**
      * Deletes an existing Scheme model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

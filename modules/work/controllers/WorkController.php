@@ -166,11 +166,13 @@ class WorkController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save())
         {
            $work=Work::findOne($id);
+           /*
            if ($work->dateofprogress<$model->dateofprogress)
               {
                 $work->dateofprogress=$model->dateofprogress;
                 $work->save();
               }
+              */
             $model = new WorkProgress();
 			$model->work_id=$id;//reset model
         }
@@ -179,7 +181,7 @@ class WorkController extends Controller
         $dataProvider = new ActiveDataProvider(['query'=>WorkProgress::find()->where('work_id='.$id)->orderBy('dateofprogress desc')]);
  
         $data= $this->renderPartial('/workprogress/index', [
-            'searchModel' => new \app\models\WorkProgressSearch(),
+            'searchModel' => new \app\modules\work\models\WorkProgressSearch(),
             'dataProvider' => $dataProvider,
             'model' => $model,
         ]);

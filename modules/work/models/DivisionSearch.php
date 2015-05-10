@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\modules\work\models\Division;
 
 /**
- * DivisionSearch represents the model behind the search form about `app\models\Division`.
+ * DivisionSearch represents the model behind the search form about `app\modules\work\models\Division`.
  */
 class DivisionSearch extends Division
 {
@@ -19,7 +19,7 @@ class DivisionSearch extends Division
     {
         return [
             [['id', 'circle_id'], 'integer'],
-            [['name_hi', 'name_en'], 'safe'],
+            [['code', 'name_hi', 'name_en'], 'safe'],
         ];
     }
 
@@ -60,7 +60,8 @@ class DivisionSearch extends Division
             'circle_id' => $this->circle_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name_hi', $this->name_hi])
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'name_hi', $this->name_hi])
             ->andFilterWhere(['like', 'name_en', $this->name_en]);
 
         return $dataProvider;

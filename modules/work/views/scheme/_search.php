@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\SchemeSearch */
+/* @var $model app\modules\work\models\SchemeSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -17,17 +17,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'scheme_code') ?>
+    <?= $form->field($model, 'code') ?>
 
     <?= $form->field($model, 'name_hi') ?>
 
     <?= $form->field($model, 'name_en') ?>
 
-    <?= $form->field($model, 'documents') ?>
-
-    <?php // echo $form->field($model, 'description') ?>
+    <?= $form->field($model, 'description') ?>
 
     <?php // echo $form->field($model, 'finyear') ?>
+
+    <?php // echo $form->field($model, 'documents') ?>
 
     <?php // echo $form->field($model, 'noofworks') ?>
 

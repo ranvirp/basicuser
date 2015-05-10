@@ -44,7 +44,7 @@ class Photo extends \yii\db\ActiveRecord
         return [
             [[ 'height', 'width', 'size','created_by'], 'integer'],
             [['bwid','url', 'path', 'filename', 'title','imei','mobileno','devicesoftware'], 'string'],
-            [['gpslat', 'gpslong','approved'], 'number'],
+            [['gpslat', 'gpslong','approved','created_by','created_at'], 'number'],
             [['mime'], 'string', 'max' => 50],
             [['title'],'safe'],
         ];

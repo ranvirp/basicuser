@@ -37,6 +37,7 @@ $this->registerJs(
         ],
     ],
 ]); ?>
+<div class="col-md-6">
      <?= $model->showForm($form,"scheme_id") ?>
       <?= $model->showForm($form,"workid") ?>
 
@@ -50,7 +51,8 @@ $this->registerJs(
 
     <?= $model->showForm($form,"agency") ?>
     <?= $model->showForm($form,"totvalue") ?>
-
+</div>
+<div class="col-md-6">
 
     <?= $model->showForm($form,"dateofsanction") ?>
 
@@ -76,7 +78,7 @@ $this->registerJs(
 
     <?= $model->showForm($form,"remarks") ?>
 
-
+</div>
 <?php
 try {
 $x= Utility::rules()["app\models\Work"][$changeattribute];

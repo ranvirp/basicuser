@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\work\models;
 
 use Yii;
 
@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $work_id
- * @property integer $material_type
+ * @property integer $material_type_id
  * @property double $qty
  * @property double $value
  *
@@ -33,7 +33,7 @@ class MaterialRequirement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['work_id', 'material_type'], 'integer'],
+            [['work_id', 'material_type_id'], 'integer'],
             [['qty', 'value'], 'number']
         ];
     }
@@ -45,8 +45,8 @@ class MaterialRequirement extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'work_id' => 'Work ID',
-            'material_type' => 'Material Type',
+            'work_id' => 'Work ',
+            'material_type_id' => 'Material Type',
             'qty' => 'Qty',
             'value' => 'Value',
         ];
@@ -57,7 +57,7 @@ class MaterialRequirement extends \yii\db\ActiveRecord
      */
     public function getMaterialType()
     {
-        return $this->hasOne(MaterialType::className(), ['id' => 'material_type']);
+        return $this->hasOne(MaterialType::className(), ['id' => 'material_type_id']);
     }
 
     /**

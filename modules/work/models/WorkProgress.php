@@ -93,7 +93,7 @@ class WorkProgress extends \yii\db\ActiveRecord
 									
 			case 'dateofprogress':
 			   return  
-			             $form->field($this, "dateofprogress")->widget(\kartik\widgets\DatePicker::classname(), [
+			             $form->field($this, "dateofprogress")->widget(\kartik\date\DatePicker::classname(), [
 'options' => ['placeholder' => 'Enter'. $this->attributeLabels()["dateofprogress"]." ..."],
 'pluginOptions' => [
 'autoclose'=>true

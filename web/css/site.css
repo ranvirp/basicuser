@@ -90,7 +90,7 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-.work-form,.circle-form,.division-form,.substation-form,.feeder-form
+.work-form,.circle-form,.division-form,.substation-form,.feeder-form,.scheme-form
  {
     box-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);
     
@@ -113,6 +113,6 @@ a.desc:after {
    {
     display:block;
     padding:20px;
-    font-size:10px;
+    font-size:12px;
    }
 

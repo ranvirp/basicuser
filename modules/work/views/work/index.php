@@ -14,18 +14,18 @@ $this->params['breadcrumbs'][] = $this->title;
 .work-index
  {
  	box-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);
- 	font-size:8px;
+ 	font-size:15px;
     
  }
  .work-index input
  {
- 	font-size:8px;
+ 	font-size:15px;
  }
 </style>
 <div class="container">
 <?php if ($model==null):?><div class="col-md-12">
 
-<?php else:?><div class="col-md-8">
+<?php else:?><div class="col-md-12">
 <?php endif;?>
 <div class="work-index">
   <div class="form-title">
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => '\yii\grid\SerialColumn'],
 		
 
-        'work_id',
+        'workid',
 		['header'=>'Division',
 			'attribute'=>'division_id',
 		 'value'=>function($model,$key,$index,$column){return $model->division?$model->division->name_en:'';},
@@ -98,6 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'filterModel' => $searchModel,
 		'afterRow'=>function($model,$key,$index,$grid)
 	     {
+	     	/*
 		$dop=$model->dateofprogress?date('d/m/Y',strtotime($model->dateofprogress)):'Not Entered';
 		$x='';
 		if (array_key_exists($model->work_type_id,\app\common\Utility::rules()['\app\models\Work']['work_type']) )
@@ -107,11 +108,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				$x.=$field.'='.$model->$field.';';
 			}
 		}
+		*/
 		
-		
-		    $wp=\app\models\WorkProgress::find()->where('work_id='.$model->id)->orderBy('dateofprogress desc')->one();
-			  $physical=$wp?$wp->physical:0;
-			  $financial=$wp?$wp->financial:0;
+		    $wp=\app\modules\work\models\WorkProgress::find()->where('work_id='.$model->id)->orderBy('dateofprogress desc')->one();
+			  $physical=$wp?$wp->phy:0;
+			  $financial=$wp?$wp->fin:0;
+			  $dop=$wp?$wp->dateofprogress:"Not entered";
 			$phyp  = \yii\bootstrap\Progress::widget([
     'percent' => $physical,
     'label'=>$physical.'%',
@@ -127,7 +129,7 @@ $finp  = \yii\bootstrap\Progress::widget([
 			  
 			  
 		 return '<tr><td>Physical:</td><td>'.$phyp.'</td><td>Financial</td><td>'.$finp.'</td>'.'<td colspan="12" style="text-align:center">Date of Progress:'.$dop.'</td></tr>'.
-			 '<tr><td colspan=11>'.$x.'</td></tr>';
+			 '<tr><td colspan=11></td></tr>';
 		
 		 },
     'columns' => $gridColumns,
@@ -182,7 +184,8 @@ $finp  = \yii\bootstrap\Progress::widget([
     ]);?>
 </div>
 </div>
-<?php if ($model!=null):?><div class="col-md-4">
+
+<?php if ($model!=null):?><div class="col-md-12">
 <?=$this->render('_form',['model'=>$model]) ?></div>
 <?php endif;?>
 </div>

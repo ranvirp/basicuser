@@ -19,9 +19,13 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/prettyPhoto.css'
     ];
     public $js = [
-    'js/common.js'
+    'js/common.js',
+    'https://www.google.com/jsapi',
+        'js/googletransliterate.js',
+        'js/jquery.prettyPhoto.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

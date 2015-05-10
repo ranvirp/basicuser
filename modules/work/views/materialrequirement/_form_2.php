@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
-use kartik\money\MaskMoney;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Work */
@@ -33,8 +32,8 @@ $this->registerJs(
     <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ]]); ?>
 	<div class="row">
 		<div class="col-lg-12">
- <?= $form->field($model, 'material_type')->dropDownList(\yii\helpers\ArrayHelper::map(
-	\app\models\MaterialType::find()->asArray()->all(),'id','name_'.Yii::$app->language)) ?>
+ <?= $form->field($model, 'material_type_id')->dropDownList(\yii\helpers\ArrayHelper::map(
+	\app\modules\work\models\MaterialType::find()->asArray()->all(),'id','name_'.Yii::$app->language)) ?>
 		</div>
 		
 		<div class="col-lg-12">

@@ -1,21 +1,17 @@
 <?php
 
-use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\WorkType */
+/* @var $model app\modules\work\models\WorkType */
 
-$this->title = 'Create Work Type';
-$this->params['breadcrumbs'][] = ['label' => 'Work Types', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'Work Type',
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Work Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="work-type-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+<?=  $this->render('_form');
+	   ?>
 </div>

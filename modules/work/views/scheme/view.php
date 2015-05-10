@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Scheme */
+/* @var $model app\modules\work\models\Scheme */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Schemes'), 'url' => ['index']];
@@ -29,12 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'scheme_code',
+            'code',
             'name_hi',
             'name_en',
-            'documents:ntext',
-            'description:ntext',
+            'description',
             'finyear',
+            'documents',
             'noofworks',
             'totalcost',
         ],

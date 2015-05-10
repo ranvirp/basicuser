@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CountriesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
- $work=\app\models\Work::findOne($model->work_id);
+ $work=\app\modules\work\models\Work::findOne($model->work_id);
 $this->title = Yii::t('app', 'Material Requirement for '.$work->name_en);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<div class="panel panel-body">
 <dl>
 	<dt>Work Id</dt>
-	<dd><?=$work->work_id?></dd>
+	<dd><?=$work->workid?></dd>
 	<dt>Name of Work</dt>
 	<dd><?=$work->name_en?></dd>
 </dl>

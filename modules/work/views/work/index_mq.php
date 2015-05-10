@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => '\kartik\grid\SerialColumn'],
 		
 
-        'work_id',
+        'workid',
 		['header'=>'Division',
 			'attribute'=>'division_id',
 		 'value'=>function($model,$key,$index,$column){return $model->division?$model->division->name_en:'';},
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		{
 			if ($action=='addmatreq') 
 			{
-				return \yii\helpers\Url::to(['/work/addmq?id='.$model->id]);
+				return \yii\helpers\Url::to(['/work/work/addmq?id='.$model->id]);
 			}
 		}
 			 ],

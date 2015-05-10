@@ -25,14 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'header'=>'Type',
 			   'value'=>function($model,$key,$index,$column){
 		$name='name_'.Yii::$app->language;
-		return \app\models\Materialtype::findOne($model->material_type)->$name;},
+		return \app\modules\work\models\Materialtype::findOne($model->material_type_id)->$name;},
 			   ],
            'qty',
            ['header'=>'Value',
            
            'value'=>function($model,$key,$index,$column)
                      {
-                       $cost=\app\models\MaterialType::findOne(['id'=>$model->material_type])->unitcost_1415;
+                       $cost=\app\modules\work\models\MaterialType::findOne(['id'=>$model->material_type_id])->unitcost_1415;
                        return $model->qty.$cost;
                      },
 			

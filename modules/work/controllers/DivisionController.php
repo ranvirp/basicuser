@@ -39,6 +39,7 @@ class DivisionController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model'=>null,
         ]);
     }
 
@@ -70,9 +71,9 @@ class DivisionController extends Controller
         {
            if (array_key_exists('app\modules\work\models\Division',Utility::rules()))
             foreach ($model->attributes as $attribute)
-            if (Utility::rules('app\modules\work\models\Division') && array_key_exists($attribute,Utility::rules()['app\models\Division']))
+            if (Utility::rules('app\modules\work\models\Division') && array_key_exists($attribute,Utility::rules()['app\modules\work\models\Division']))
             $model->validators->append(
-               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\models\Division'][$model->$attribute]['required'])
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Division'][$model->$attribute]['required'])
             );
             if ($model->save())
             $model = new Division();; //reset model
@@ -106,9 +107,9 @@ class DivisionController extends Controller
         if (array_key_exists('app\modules\work\models\Division',Utility::rules()))
            
             foreach ($model->attributes as $attribute)
-            if (array_key_exists($attribute,Utility::rules()['app\models\Division']))
+            if (array_key_exists($attribute,Utility::rules()['app\modules\work\models\Division']))
             $model->validators->append(
-               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\models\Division'][$model->$attribute]['required'])
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Division'][$model->$attribute]['required'])
             );
             if ($model->save())
             $model = new Division();; //reset model
@@ -153,21 +154,4 @@ class DivisionController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    /* 
-		    * Returns list of divisions in a circle in json form 
-		    */ 
-		   public function actionGet() 
-		   { 
-		       $lang=Yii::$app->language; 
-		       $circle=Yii::$app->request->post('depdrop_parents')[0]; 
-		       $y=[]; 
-		       foreach (\yii\helpers\ArrayHelper::map(\app\models\Division::find()->where('circle_id=:circle_id',[':circle_id'=>$circle])->asArray()->all(),'id','name_'.$lang) as $id=>$name) 
-		       { 
-		           $x['id']=$id; 
-		           $x['name']=$name; 
-		           $y[]=$x; 
-		       } 
-		       echo \yii\helpers\Json::encode(['output'=>$y,'selected'=>'']); 
-		       return; 
-		   } 
 }

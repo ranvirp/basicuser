@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\WorkProgress */
+/* @var $model app\modules\work\models\WorkProgress */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Work Progress',

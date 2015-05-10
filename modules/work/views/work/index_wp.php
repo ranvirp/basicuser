@@ -25,18 +25,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => '\kartik\grid\SerialColumn'],
 		
 
-        'work_id',
+        'workid',
 		['header'=>'Division',
 			'attribute'=>'division_id',
 		 'value'=>function($model,$key,$index,$column){return $model->division?$model->division->name_en:'';},
-         'filter'=>\yii\helpers\ArrayHelper::map(\app\models\Division::find()->asArray()->all(),'id','name_en')
+         'filter'=>\yii\helpers\ArrayHelper::map(\app\modules\work\models\Division::find()->asArray()->all(),'id','name_en')
 			 ],
 			 
             'name_'.Yii::$app->language.':ntext',
 		 ['header'=>'Work Type','attribute'=>'work_type_id','value'=>function($model,$key,$index,$column){
 		$name='name_'.Yii::$app->language;
 		return $model->workType?$model->workType->$name:'';},
-		'filter'=>\yii\helpers\ArrayHelper::map(\app\models\WorkType::find()->asArray()->all(),'id','name_en'),
+		'filter'=>\yii\helpers\ArrayHelper::map(\app\modules\work\models\WorkType::find()->asArray()->all(),'id','name_en'),
 		],
 			
             /*
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		{
 			if ($action=='addprog') 
 			{
-				return \yii\helpers\Url::to(['/work/addwp?id='.$model->id]);
+				return \yii\helpers\Url::to(['/work/work/addwp?id='.$model->id]);
 			}
 		}
 			 ],
@@ -72,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'filterModel' => $searchModel,
 		'afterRow'=>function($model,$key,$index,$grid)
 	     {
+	     	/*
 				$dop=$model->dateofprogress?date('d/m/Y',strtotime($model->dateofprogress)):'Not Entered';
 		$x='';
 		if (array_key_exists($model->work_type_id,\app\common\Utility::rules()['\app\models\Work']['work_type']) )
@@ -81,11 +82,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				$x.=$field.'='.$model->$field.';';
 			}
 		}
+		*/
 		
-		
-		    $wp=\app\models\WorkProgress::find()->where('work_id='.$model->id)->orderBy('dateofprogress desc')->one();
-			  $physical=$wp?$wp->physical:0;
-			  $financial=$wp?$wp->financial:0;
+		    $wp=\app\modules\work\models\WorkProgress::find()->where('work_id='.$model->id)->orderBy('dateofprogress desc')->one();
+			  $physical=$wp?$wp->phy:0;
+			  $financial=$wp?$wp->fin:0;
+			  $dop=$wp?$wp->dateofprogress:'Not Entered';
 			$phyp  = \yii\bootstrap\Progress::widget([
     'percent' => $physical,
     'label'=>$physical.'%',
@@ -101,7 +103,7 @@ $finp  = \yii\bootstrap\Progress::widget([
 			  
 			  
 		 return '<tr><td>Physical:</td><td>'.$phyp.'</td><td>Financial</td><td>'.$finp.'</td>'.'<td colspan="12" style="text-align:center">Date of Progress:'.$dop.'</td></tr>'.
-			 '<tr><td colspan=11>'.$x.'</td></tr>';
+			 '<tr><td colspan=11></td></tr>';
 		 
 		 },
     'columns' => $gridColumns,

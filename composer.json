@@ -22,7 +22,11 @@
         "kartik-v/yii2-widget-fileinput": "*",
         "2amigos/yii2-leaflet-extension": "*",
         "kartik-v/yii2-grid": "*",
-        "kartik-v/yii2-mpdf": "*"
+        "kartik-v/yii2-mpdf": "*",
+        "kartik-v/yii2-widget-datepicker": "*",
+        "kartik-v/yii2-widgets": "*",
+
+         "2amigos/yii2-highcharts-widget" : "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

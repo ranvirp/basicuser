@@ -40,6 +40,7 @@ class m150506_185842_create_tables_work extends Migration
          $this->createTable('{{%work_progress}}', [
             'id' => Schema::TYPE_PK,
             'work_id'=>Schema::TYPE_INTEGER,
+             'dateofprogress'=>Schema::TYPE_DATE,
             'exp'=>Schema::TYPE_DOUBLE,
             'phy'=>Schema::TYPE_INTEGER,
             'fin'=>Schema::TYPE_INTEGER,
@@ -189,7 +190,7 @@ class m150506_185842_create_tables_work extends Migration
       $this->addForeignKey('division_circle_fkey','{{%division}}','circle_id','{{%circle}}','id');
       $this->addForeignKey('aearea_division_fkey','{{%ae_area}}','division_id','{{%division}}','id');
       $this->addForeignKey('jearea_division_fkey','{{%je_area}}','division_id','{{%division}}','id');
-      $this->addForeignKey('materialrequirement_work_fkey','{{%material_requirement}}','work_id','{{%division}}','id');
+      $this->addForeignKey('materialrequirement_work_fkey','{{%material_requirement}}','work_id','{{%work}}','id');
        $this->addForeignKey('materialrequirement_materialtype_fkey','{{%material_requirement}}','material_type_id','{{%material_type}}','id');
      
       

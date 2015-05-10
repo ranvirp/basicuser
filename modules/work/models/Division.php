@@ -7,13 +7,17 @@ use Yii;
  * This is the model class for table "division".
  *
  * @property integer $id
- * @property integer $circle_id
+ * @property string $code
  * @property string $name_hi
  * @property string $name_en
+ * @property integer $circle_id
  *
  * @property Work[] $works
- * @property Circle $circle
  * @property Substation[] $substations
+ * @property AeArea[] $aeAreas
+ * @property JeArea[] $jeAreas
+ * @property Circle $circle
+ * @property MaterialRequirement[] $materialRequirements
  */
 class Division extends \yii\db\ActiveRecord
 {
@@ -32,8 +36,8 @@ class Division extends \yii\db\ActiveRecord
     {
         return [
             [['circle_id'], 'integer'],
-            [['name_hi', 'name_en'], 'string', 'max' => 200],
-            [['code','circle_id','name_hi','name_en'],'required'],
+            [['code'], 'string', 'max' => 5],
+            [['name_hi', 'name_en'], 'string', 'max' => 255]
         ];
     }
 
@@ -44,9 +48,10 @@ class Division extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'circle_id' => Yii::t('app', 'Circle ID'),
+            'code' => Yii::t('app', 'Code'),
             'name_hi' => Yii::t('app', 'Name Hi'),
             'name_en' => Yii::t('app', 'Name En'),
+            'circle_id' => Yii::t('app', 'Circle ID'),
         ];
     }
 
@@ -61,6 +66,30 @@ class Division extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSubstations()
+    {
+        return $this->hasMany(Substation::className(), ['division_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAeAreas()
+    {
+        return $this->hasMany(AeArea::className(), ['division_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJeAreas()
+    {
+        return $this->hasMany(JeArea::className(), ['division_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCircle()
     {
         return $this->hasOne(Circle::className(), ['id' => 'circle_id']);
@@ -69,9 +98,9 @@ class Division extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSubstations()
+    public function getMaterialRequirements()
     {
-        return $this->hasMany(Substation::className(), ['division_id' => 'id']);
+        return $this->hasMany(MaterialRequirement::className(), ['work_id' => 'id']);
     }
 	/*
 	*@return form of individual elements
@@ -87,8 +116,8 @@ class Division extends \yii\db\ActiveRecord
 			    
 			    break;
 									
-			case 'circle_id':
-			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Circle::find()->asArray()->all(),"id","name_".Yii::$app->language),["prompt"=>"None.."]);
+			case 'code':
+			   return  $form->field($this,$attribute)->textInput();
 			    
 			    break;
 									
@@ -99,6 +128,11 @@ class Division extends \yii\db\ActiveRecord
 									
 			case 'name_en':
 			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'circle_id':
+			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Circle::find()->asArray()->all(),"id","name_".Yii::$app->language),["prompt"=>"None.."]);
 			    
 			    break;
 			 
@@ -119,14 +153,17 @@ class Division extends \yii\db\ActiveRecord
 			case 'id':
 			   return $this->id;			    break;
 									
-			case 'circle_id':
-			   return Circle::findOne($this->circle_id)->$name;			    break;
+			case 'code':
+			   return $this->code;			    break;
 									
 			case 'name_hi':
 			   return $this->name_hi;			    break;
 									
 			case 'name_en':
 			   return $this->name_en;			    break;
+									
+			case 'circle_id':
+			   return Circle::findOne($this->circle_id)->$name;			    break;
 			 
 			default:
 			break;

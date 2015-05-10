@@ -1,5 +1,5 @@
 <?php
-namespace app\models;
+namespace app\modules\work\models;
 
 use Yii;
 
@@ -76,7 +76,7 @@ class MaterialType extends \yii\db\ActiveRecord
 			    break;
 									
 			case 'name_hi':
-			   return  $form->field($this,$attribute)->textInput();
+			   return  $form->field($this,$attribute)->textInput(['class'=>'hindiinput form-control']);
 			    
 			    break;
 									

@@ -1,32 +1,75 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
+use app\common\Utility;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Division */
+/* @var $model app\modules\work\models\Division */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<?php
+ 
+ $changeattribute='';
+$this->registerJs(
+   '$("document").ready(function(){ 
+        $("#new_division").on("pjax:end", function() {
+            $.pjax.reload({container:"#divisions"});  //Reload GridView
+        });
+    });'
+);
+?>
+<div class="bordered-form division-form">
+  <div class="form-title">
+    <div class="form-title-span">
+        <span>Form for creating Division</span>
+    </div>
+</div>
+    <?php $form = ActiveForm::begin([
+    'layout' => 'horizontal',
+    'fieldConfig' => [
+        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+        'horizontalCssClasses' => [
+            'label' => 'col-sm-4',
+            'offset' => 'col-sm-offset-4',
+            'wrapper' => 'col-sm-8',
+            'error' => '',
+            'hint' => '',
+        ],
+    ],
+]); ?>
 
-<div class="division-form">
-    <div class="form-title">
-        <div class="form-title-span">
-            <span>Form for creating Division</span>
-        </div>
-     </div>
+    <?= $model->showForm($form,"code") ?>
 
-    <?php $lang=Yii::$app->language;?>
-    <?php $form = ActiveForm::begin(); ?>
-    <?php $items = \yii\helpers\ArrayHelper::map(\app\modules\work\models\Circle::find()->asArray()->all(),'id','name_'.$lang);?>
-    <?= $form->field($model, 'circle_id')->dropDownList($items,['id'=>'circle_id']) ?>
+    <?= $model->showForm($form,"name_hi") ?>
 
-    <?= $form->field($model, 'name_hi')->textInput(['maxlength' => 200,'class'=>'form-control hindiinput']) ?>
+    <?= $model->showForm($form,"name_en") ?>
 
-    <?= $form->field($model, 'name_en')->textInput(['maxlength' => 200]) ?>
-    <?= $form->field($model, 'code')->textInput(['maxlength' => 200]) ?>
+    <?= $model->showForm($form,"circle_id") ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+<?php
+/*
+try {
+$x= Utility::rules()["app\modules\work\models\Division"][$changeattribute];
+} catch (Exception $e) {$x=null;}
+$modelArray=Yii::$app->request->post("Division");
+		if ($x && $model && array_key_exists($changeattribute,$modelArray) && array_key_exists($modelArray[$changeattribute],$x))
+		{
+			$attribute_value=$modelArray[$changeattribute];
+			
+			foreach ($x[$attribute_value]["show"] as $field)
+			{
+			  
+				echo "<div class=\"row\">\n";
+			
+				echo $model->showForm($form,$field);
+				echo "</div>";
+			
+			}
+		}
+**/
+?>    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

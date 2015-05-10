@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\work\controllers;
 
 use Yii;
 
@@ -32,13 +32,13 @@ class ReportController extends Controller
 		   case 'r2':
 			   $sid=Yii::$app->request->get('sid');
 			   
-			   $scheme= \app\models\Scheme::findOne($sid);
+			   $scheme= \app\modules\work\models\Scheme::findOne($sid);
                if (!$scheme)
                   {
 		   $x='<p><h2>To see list of works , select a scheme </h2></p>';
 	                  return $this->renderContent( $x.Html::dropDownList('schemedropdown','',
-\yii\helpers\ArrayHelper::map(\app\models\Scheme::find()->asArray()->all(),'id','name_en'),
-						  ['prompt'=>'None','onChange'=>'window.location.replace("'.\yii\helpers\Url::to(['/report?rt=r2&sid=']).'"+$(this).val())'])					  
+\yii\helpers\ArrayHelper::map(\app\modules\work\models\Scheme::find()->asArray()->all(),'id','name_en'),
+						  ['prompt'=>'None','onChange'=>'window.location.replace("'.\yii\helpers\Url::to(['/work/report?rt=r2&sid=']).'"+$(this).val())'])					  
                   );
 					  
 				  }
@@ -46,7 +46,7 @@ class ReportController extends Controller
                $dataProvider = new ActiveDataProvider([
                   'query' => $scheme->getWorks(),
                ]);
-			   $searchModel=new \app\models\WorkSearch;
+			   $searchModel=new \app\modules\work\models\WorkSearch;
 			   $params=Yii::$app->request->queryParams;
 			   $searchModel->load($params);
 			   if (array_key_exists('WorkSearch',$params))
@@ -60,21 +60,20 @@ class ReportController extends Controller
 		   case 'r3':
 			   $sid=Yii::$app->request->get('sid');
 			   
-			   $scheme= \app\models\Scheme::findOne($sid);
-               $scheme= \app\models\Scheme::findOne($sid);
+			   $scheme= \app\modules\work\models\Scheme::findOne($sid);
                if (!$scheme)
                   {
 		   $x='<p><h2>To see list of material requirements for a scheme , select a scheme </h2></p>';
 	                  return $this->renderContent( $x.Html::dropDownList('schemedropdown','',
-\yii\helpers\ArrayHelper::map(\app\models\Scheme::find()->asArray()->all(),'id','name_en'),
-						  ['prompt'=>'None','onChange'=>'window.location.replace("'.\yii\helpers\Url::to(['/report?rt=r3&sid=']).'"+$(this).val())'])					  
+\yii\helpers\ArrayHelper::map(\app\modules\work\models\Scheme::find()->asArray()->all(),'id','name_en'),
+						  ['prompt'=>'None','onChange'=>'window.location.replace("'.\yii\helpers\Url::to(['/work/report?rt=r3&sid=']).'"+$(this).val())'])					  
                   );
 					  
 				  }
 		   
                $dataProvider = new ActiveDataProvider([
-                  'query' => \app\models\MaterialRequirement::find()->innerJoin('work','material_requirement.work_id=work.id')->innerJoin('scheme','work.scheme_id=scheme.id')
-				             ->select('material_type,count(*) as cnt,sum(qty) as totqty')->groupBy('material_type'),
+                  'query' => \app\modules\work\models\MaterialRequirement::find()->innerJoin('work','material_requirement.work_id=work.id')->innerJoin('scheme','work.scheme_id=scheme.id')
+				             ->select('material_type_id,count(*) as cnt,sum(qty) as totqty')->groupBy('material_type_id'),
                ]);
 			   return $this->render('r3',['dataProvider'=>$dataProvider,'scheme'=>$scheme,
 		   ]);
@@ -82,19 +81,19 @@ class ReportController extends Controller
 		   case 'r4':
 			   $wid=Yii::$app->request->get('wid');
 			   
-			   $work= \app\models\Work::findOne($wid);
+			   $work= \app\modules\work\models\Work::findOne($wid);
                if (!$work)
                   {
 		   $x='<p><h2>To see list of material required , select a work </h2></p>';
 	                  return $this->renderContent( $x.Html::dropDownList('workdropdown','',
-\yii\helpers\ArrayHelper::map(\app\models\Work::find()->asArray()->all(),'id','name_en'),
-						  ['prompt'=>'None','onChange'=>'window.location.replace("'.\yii\helpers\Url::to(['/report?rt=r4&wid=']).'"+$(this).val())'])					  
+\yii\helpers\ArrayHelper::map(\app\modules\work\models\Work::find()->asArray()->all(),'id','name_en'),
+						  ['prompt'=>'None','onChange'=>'window.location.replace("'.\yii\helpers\Url::to(['/work/report?rt=r4&wid=']).'"+$(this).val())'])					  
                   );
 					  
 				  }
 		   
                $dataProvider = new ActiveDataProvider([
-                  'query' => \app\models\MaterialRequirement::find()->where('work_id='.$wid)
+                  'query' => \app\modules\work\models\MaterialRequirement::find()->where('work_id='.$wid)
 				                ]);
 			   return $this->render('r4',['dataProvider'=>$dataProvider,'work'=>$work,
 		   ]);
@@ -104,7 +103,7 @@ class ReportController extends Controller
 		    */
 		   case 'ex1':
 			   $dataProvider=new ActiveDataProvider([
-				   'query'=>\app\models\WorkSearch::listProgressNotAdded(),
+				   'query'=>\app\modules\work\models\WorkSearch::listProgressNotAdded(),
 				   ]);
 			   return $this->render('/work/index',['dataProvider'=>$dataProvider]);
 			   break;

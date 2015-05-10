@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\WorkProgress */
+/* @var $model app\modules\work\models\WorkProgress */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Work Progresses'), 'url' => ['index']];
@@ -30,11 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'work_id',
-            'physical',
-            'financial',
+            'exp',
+            'phy',
+            'fin',
             'dateofprogress',
-            'remarks:ntext',
-            'expenditure',
         ],
     ]) ?>
 

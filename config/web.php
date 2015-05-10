@@ -22,13 +22,16 @@ $config = [
 				['class' => 'yii\rest\UrlRule', 'controller' => 'api/photo'],
 			],
 			],
-        'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'test',
-        ],
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-        ],
+                        'request' => [
+                        'parsers' => [
+                                'application/json' => 'yii\web\JsonParser',
+                        ],
+                        // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+                        'cookieValidationKey' => 'Mm6heaay14ty6CILacC5z7C5T8CR4NuB',
+                ],
+                'cache' => [
+                        'class' => 'yii\caching\FileCache',
+                ],
         'user' => [
             'identityClass' => 'app\modules\users\models\User',
             'enableAutoLogin' => true,
@@ -57,7 +60,10 @@ $config = [
     'modules'=>['users'=>['class'=>'app\modules\users\Module'],
     'reply'=>['class'=>'app\modules\reply\Module'],
     'work'=>['class'=>'app\modules\work\Module'],
-    'gridview'=>['class'=>'kartik\grid\Module']
+    'gridview'=>['class'=>'kartik\grid\Module'],
+    'api'=>['class'=>'app\modules\api\Module'],
+    'gpsphoto'=>['class'=>'app\modules\gpsphoto\Module'],
+    
     ],
     'params' => $params,
 ];

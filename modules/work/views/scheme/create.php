@@ -1,10 +1,9 @@
 <?php
 
-use kartik\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Scheme */
+/* @var $model app\modules\work\models\Scheme */
 
 $this->title = Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Scheme',
@@ -13,8 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Schemes'), 'url' => 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="scheme-create">
-<?=   Html::Panel(['heading'=>Html::encode($this->title),'body'=>$this->render('_form', [
-        'model' => $model,
-    ]) ],Html::TYPE_WARNING)
+<?=  $this->render('_form');
 	   ?>
 </div>

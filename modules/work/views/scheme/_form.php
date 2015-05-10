@@ -1,34 +1,84 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
+use app\common\Utility;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Scheme */
+/* @var $model app\modules\work\models\Scheme */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<?php
+ 
+ $changeattribute='';
+$this->registerJs(
+   '$("document").ready(function(){ 
+        $("#new_scheme").on("pjax:end", function() {
+            $.pjax.reload({container:"#schemes"});  //Reload GridView
+        });
+    });'
+);
+?>
+<div class="bordered-form scheme-form">
+  <div class="form-title">
+    <div class="form-title-span">
+        <span>Form for creating Scheme</span>
+    </div>
+</div>
+    <?php $form = ActiveForm::begin([
+    'layout' => 'horizontal',
+    'fieldConfig' => [
+        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+        'horizontalCssClasses' => [
+            'label' => 'col-sm-4',
+            'offset' => 'col-sm-offset-4',
+            'wrapper' => 'col-sm-8',
+            'error' => '',
+            'hint' => '',
+        ],
+    ],
+]); ?>
 
-<div class="scheme-form">
+    <?= $model->showForm($form,"code") ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?= $model->showForm($form,"name_hi") ?>
 
-    <?= $form->field($model, 'scheme_code')->textInput(['maxlength' => 20]) ?>
+    <?= $model->showForm($form,"name_en") ?>
 
-    <?= $form->field($model, 'name_hi')->textInput(['maxlength' => 50]) ?>
+    <?= $model->showForm($form,"description") ?>
 
-    <?= $form->field($model, 'name_en')->textInput(['maxlength' => 50]) ?>
+    <?= $model->showForm($form,"finyear") ?>
 
-    <?= $form->field($model, 'documents')->textarea(['rows' => 6]) ?>
+    <?= 
+        $form->field($model, 'documents')->widget(\app\modules\reply\widgets\FileWidget::classname()) 
+        ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $model->showForm($form,"noofworks") ?>
 
-    <?= $form->field($model, 'finyear')->dropDownList([ '2012-13' => '2012-13', '2013-14' => '2013-14', '2014-15' => '2014-15', '2015-16' => '2015-16', ], ['prompt' => '']) ?>
+    <?= $model->showForm($form,"totalcost") ?>
 
-    <?= $form->field($model, 'noofworks')->textInput() ?>
-
-    <?= $form->field($model, 'totalcost')->textInput() ?>
-
-    <div class="form-group">
+<?php
+/*
+try {
+$x= Utility::rules()["app\modules\work\models\Scheme"][$changeattribute];
+} catch (Exception $e) {$x=null;}
+$modelArray=Yii::$app->request->post("Scheme");
+		if ($x && $model && array_key_exists($changeattribute,$modelArray) && array_key_exists($modelArray[$changeattribute],$x))
+		{
+			$attribute_value=$modelArray[$changeattribute];
+			
+			foreach ($x[$attribute_value]["show"] as $field)
+			{
+			  
+				echo "<div class=\"row\">\n";
+			
+				echo $model->showForm($form,$field);
+				echo "</div>";
+			
+			}
+		}
+**/
+?>    <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

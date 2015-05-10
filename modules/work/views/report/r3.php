@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'header'=>'Type',
 			   'value'=>function($model,$key,$index,$column){
 		$name='name_'.Yii::$app->language;
-		return \app\models\Materialtype::findOne($model->material_type)->$name;},
+		return \app\modules\work\models\Materialtype::findOne($model->material_type_id)->$name;},
 			   ],
              ['header'=>'No of Works ','attribute'=>'cnt'],
 			['header'=>'Total quantity','attribute'=>'totqty'],
