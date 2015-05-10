@@ -84,8 +84,9 @@ class WorkController extends Controller
  
         $searchModel = new WorkSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
- 
-        return $this->render('index', [
+        $dataProvider->pagination=['pageSize'=>1];
+        $dataProvider->query=$dataProvider->query->orderBy('created_at desc');
+        return $this->render('index_create', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model,
@@ -122,8 +123,10 @@ class WorkController extends Controller
  
        $searchModel = new WorkSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
- 
-        return $this->render('index', [
+   $dataProvider->pagination=['pageSize'=>1];
+        $dataProvider->query=$dataProvider->query->orderBy('created_at desc');
+      
+        return $this->render('index_create', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model,
