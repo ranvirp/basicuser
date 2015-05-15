@@ -4,8 +4,8 @@ namespace app\modules\users\controllers;
 
 use Yii;
 use app\common\Utility;
-use app\modules\masterdata\models\Department;
-use app\modules\masterdata\models\DepartmentSearch;
+use app\modules\users\models\Department;
+use app\modules\users\models\DepartmentSearch;
 use app\modules\users\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -70,9 +70,9 @@ class DepartmentController extends Controller
         {
            if (array_key_exists('app\modules\users\models\Department',Utility::rules()))
             foreach ($model->attributes as $attribute)
-            if (Utility::rules(Department) && array_key_exists($attribute,Utility::rules()['app\modules\masterdata\models\Department']))
+            if (Utility::rules('app\modules\users\models\Department') && array_key_exists($attribute,Utility::rules()['app\modules\users\models\Department']))
             $model->validators->append(
-               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\masterdata\models\Department'][$model->$attribute]['required'])
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\users\models\Department'][$model->$attribute]['required'])
             );
             if ($model->save())
             $model = new Department();; //reset model
@@ -106,9 +106,9 @@ class DepartmentController extends Controller
         if (array_key_exists('app\modules\users\models\Department',Utility::rules()))
            
             foreach ($model->attributes as $attribute)
-            if (array_key_exists($attribute,Utility::rules()['app\modules\masterdata\models\Department']))
+            if (array_key_exists($attribute,Utility::rules()['app\modules\users\models\Department']))
             $model->validators->append(
-               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\masterdata\models\Department'][$model->$attribute]['required'])
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\users\models\Department'][$model->$attribute]['required'])
             );
             if ($model->save())
             $model = new Department();; //reset model

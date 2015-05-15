@@ -156,9 +156,10 @@ class m150506_185842_create_tables_work extends Migration
            $authManager=Yii::$app->authManager;
          if ($authManager)
           {
+          if (!($workadminrole=$authManager->getRole('workadmin'))){
            $workadminrole=$authManager->createRole('workadmin');
            $authManager->add($workadminrole);
-           
+           }
            $permissions=['edit','delete','create','view','index','update'];
             $tables=['work','work_progress','work_type','scheme','material_requirement','material_type',
        'division','circle','feeder','substation','ae_area','je_area'];
@@ -166,7 +167,8 @@ class m150506_185842_create_tables_work extends Migration
             {
               foreach($permissions as $permission)
                 {
-                  if (!($authpermission=$authManager->getPermission($table.$permission)))
+                  $authpermission=$authManager->getPermission($table.$permission);
+                  if (!$authpermission)
                      {
                        $authpermission=$authManager->createPermission($table.$permission);
                        $authpermission->description=$permission.' of controller '.$table;
@@ -174,6 +176,22 @@ class m150506_185842_create_tables_work extends Migration
                      }
                     $authManager->addChild($workadminrole,$authpermission);
                 }
+                 $authpermission=$authManager->getPermission('workaddmq');
+                  if (!$authpermission)
+                     {
+                       $authpermission=$authManager->createPermission($table.$permission);
+                       $authpermission->description=$permission.' of controller '.$table;
+                       $authManager->add($authpermission);
+                     }
+                    $authManager->addChild($workadminrole,$authpermission);
+                    $authpermission=$authManager->getPermission('workaddwp');
+                  if (!$authpermission)
+                     {
+                       $authpermission=$authManager->createPermission($table.$permission);
+                       $authpermission->description=$permission.' of controller '.$table;
+                       $authManager->add($authpermission);
+                     }
+                    $authManager->addChild($workadminrole,$authpermission);
             }
           }
       $this->addForeignKey('work_agency_fkey','{{%work}}','agency_id','{{%agency}}','id');

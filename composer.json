@@ -26,7 +26,8 @@
         "kartik-v/yii2-widget-datepicker": "*",
         "kartik-v/yii2-widgets": "*",
 
-         "2amigos/yii2-highcharts-widget" : "~1.0"
+         "2amigos/yii2-highcharts-widget" : "~1.0",
+        "dektrium/yii2-rbac": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -42,6 +43,9 @@
             "yii\\composer\\Installer::postCreateProject"
         ]
     },
+    "repositories":{
+      
+     },
     "extra": {
         "yii\\composer\\Installer::postCreateProject": {
             "setPermission": [

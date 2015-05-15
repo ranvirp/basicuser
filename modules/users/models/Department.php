@@ -9,10 +9,12 @@ use Yii;
  * @property integer $id
  * @property string $name_hi
  * @property string $name_en
+ * @property integer $created_at
+ * @property integer $updated_at
  *
  * @property Level[] $levels
  */
-class Department extends \yii\db\ActiveRecord
+class Department extends \app\modules\users\MyActiveRecord
 {
     /**
      * @inheritdoc
@@ -21,22 +23,15 @@ class Department extends \yii\db\ActiveRecord
     {
         return 'department';
     }
-/**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            \yii\behaviors\TimestampBehavior::className(),
-        ];
-    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name_hi', 'name_en'], 'string', 'max' => 50]
+            [['name_hi', 'name_en'], 'required'],
+            [['name_hi', 'name_en'], 'string', 'max' => 255]
         ];
     }
 
@@ -47,8 +42,10 @@ class Department extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name_hi' => Yii::t('app', 'Name in Hindi'),
-            'name_en' => Yii::t('app', 'Name in English'),
+            'name_hi' => Yii::t('app', 'Name Hi'),
+            'name_en' => Yii::t('app', 'Name En'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
@@ -59,7 +56,6 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Level::className(), ['dept_id' => 'id']);
     }
-
 	/*
 	*@return form of individual elements
 	*/
@@ -75,11 +71,21 @@ class Department extends \yii\db\ActiveRecord
 			    break;
 									
 			case 'name_hi':
-			   return  $form->field($this,$attribute)->textInput(['class'=>'form-control hindiinput']);
+			   return  $form->field($this,$attribute)->textInput(['class'=>'hindiinput form-control']);
 			    
 			    break;
 									
 			case 'name_en':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'created_at':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'updated_at':
 			   return  $form->field($this,$attribute)->textInput();
 			    
 			    break;
@@ -106,6 +112,12 @@ class Department extends \yii\db\ActiveRecord
 									
 			case 'name_en':
 			   return $this->name_en;			    break;
+									
+			case 'created_at':
+			   return date('d/m/Y H:i:s',$this->created_at);			    break;
+									
+			case 'updated_at':
+			   return date('d/m/Y H:i:s',$this->updated_at);			    break;
 			 
 			default:
 			break;

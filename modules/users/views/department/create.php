@@ -1,6 +1,5 @@
 <?php
 
-use kartik\helpers\Html;
 
 
 /* @var $this yii\web\View */
@@ -13,8 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Departments'), 'url'
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="department-create">
-<?=   Html::Panel(['heading'=>Html::encode($this->title),'body'=>$this->render('_form', [
-        'model' => $model,
-    ]) ],Html::TYPE_WARNING)
+<?=  $this->render('_form');
 	   ?>
 </div>

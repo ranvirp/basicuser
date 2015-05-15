@@ -24,11 +24,11 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout','changepassword'],
                 'rules' => [
                     
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','changepassword'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -123,5 +123,18 @@ class UserController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+     public function actionChangepassword()
+    {
+        $oldpwd=Yii::$app->request->post('oldpassword');
+        $newpwd=Yii::$app->request->post('newpassword');
+        $newpwdrepeat=Yii::$app->request->post('newpasswordrepeat');
+        if ($oldpwd && ($oldpwd!='') && ($newpwd==$newpwdrepeat))
+         {
+           if (Yii::$app->user->getIdentity()->validatePassword($oldpwd))
+            Yii::$app->user->setIdentity()->setPassword($newpwd);
+         }
+        
+        return $this->render('ChangePassword');
     }
 }

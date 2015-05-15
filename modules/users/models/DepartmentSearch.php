@@ -18,7 +18,7 @@ class DepartmentSearch extends Department
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'created_at', 'updated_at'], 'integer'],
             [['name_hi', 'name_en'], 'safe'],
         ];
     }
@@ -57,6 +57,8 @@ class DepartmentSearch extends Department
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name_hi', $this->name_hi])

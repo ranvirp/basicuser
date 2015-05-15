@@ -4,8 +4,8 @@ namespace app\modules\users\controllers;
 
 use Yii;
 use app\common\Utility;
-use app\modules\masterdata\models\DesignationType;
-use app\modules\masterdata\models\DesignationTypeSearch;
+use app\modules\users\models\DesignationType;
+use app\modules\users\models\DesignationTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

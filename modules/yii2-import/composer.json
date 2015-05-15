@@ -1,0 +1,21 @@
+{
+    "name": "ranvirp/yii2-import",
+    "description": "Importing data into the project from excel,csv files through a GUI",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Ranvir Prasad",
+            "email": "ranvir.prasad@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ranvirp\\import\\": ""
+        }
+    }
+}

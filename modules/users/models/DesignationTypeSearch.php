@@ -5,7 +5,7 @@ namespace app\modules\users\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\masterdata\models\DesignationType;
+use app\modules\users\models\DesignationType;
 
 /**
  * DesignationTypeSearch represents the model behind the search form about `app\modules\masterdata\models\DesignationType`.

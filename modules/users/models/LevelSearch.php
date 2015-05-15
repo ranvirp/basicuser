@@ -5,10 +5,10 @@ namespace app\modules\users\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\masterdata\models\Level;
+use app\modules\users\models\Level;
 
 /**
- * LevelSearch represents the model behind the search form about `app\modules\masterdata\models\Level`.
+ * LevelSearch represents the model behind the search form about `app\modules\users\models\Level`.
  */
 class LevelSearch extends Level
 {
@@ -18,8 +18,8 @@ class LevelSearch extends Level
     public function rules()
     {
         return [
-            [['id', 'dept_id'], 'integer'],
-            [['class_name', 'name_hi', 'name_en'], 'safe'],
+            [['id', 'dept_id', 'created_at', 'updated_at'], 'integer'],
+            [['name_hi', 'name_en', 'class_name'], 'safe'],
         ];
     }
 
@@ -58,11 +58,13 @@ class LevelSearch extends Level
         $query->andFilterWhere([
             'id' => $this->id,
             'dept_id' => $this->dept_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'class_name', $this->class_name])
-            ->andFilterWhere(['like', 'name_hi', $this->name_hi])
-            ->andFilterWhere(['like', 'name_en', $this->name_en]);
+        $query->andFilterWhere(['like', 'name_hi', $this->name_hi])
+            ->andFilterWhere(['like', 'name_en', $this->name_en])
+            ->andFilterWhere(['like', 'class_name', $this->class_name]);
 
         return $dataProvider;
     }

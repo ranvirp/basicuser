@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\masterdata\models\Level */
+/* @var $model app\modules\users\models\Level */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Level',

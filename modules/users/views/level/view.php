@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\masterdata\models\Level */
+/* @var $model app\modules\users\models\Level */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Levels'), 'url' => ['index']];
@@ -29,10 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'class_name',
             'dept_id',
             'name_hi',
             'name_en',
+            'class_name',
+            'created_at',
+            'updated_at',
         ],
     ]) ?>
 
