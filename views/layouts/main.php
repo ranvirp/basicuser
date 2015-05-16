@@ -79,7 +79,7 @@ AppAsset::register($this);
         
         Yii::$app->user->isGuest ?
         ['label' => 'Login', 'url' => ['/users/user/login']] :
-        ['label' => \app\modules\users\models\Designation::find()->where(['officer_userid'=>Yii::$app->user->id])->one()->name_en.' (' . Yii::$app->user->identity->username . ')',
+        ['label' => \app\modules\users\models\Designation::find()->where(['officer_userid'=>Yii::$app->user->id])->one()?\app\modules\users\models\Designation::find()->where(['officer_userid'=>Yii::$app->user->id])->one()->name_en:''.' (' . Yii::$app->user->identity->username . ')',
             'url' => ['/users/user/logout'],
             'items'=>[
             ['label'=>'Change Password','url'=>['/users/user/changepassword']],

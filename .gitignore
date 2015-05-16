@@ -1,6 +1,7 @@
 #yii2 assets and runtime directory
 /runtime
 /web/assets
+/web/Package
 # phpstorm project files
 .idea
 

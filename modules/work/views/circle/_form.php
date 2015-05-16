@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Circle */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<span class="icon"><img src="<?=Yii::getAlias('@web')?>/icons/circle_creation.jpg"></img></span>
 <div class="circle-form">
  <div class="form-title">
  	<div class="form-title-span">
