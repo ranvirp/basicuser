@@ -37,7 +37,8 @@ class Division extends \yii\db\ActiveRecord
         return [
             [['circle_id'], 'integer'],
             [['code'], 'string', 'max' => 5],
-            [['name_hi', 'name_en'], 'string', 'max' => 255]
+            [['name_hi', 'name_en'], 'string', 'max' => 255],
+            [['code','name_en'],'unique']
         ];
     }
 
@@ -49,8 +50,8 @@ class Division extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'code' => Yii::t('app', 'Code'),
-            'name_hi' => Yii::t('app', 'Name Hi'),
-            'name_en' => Yii::t('app', 'Name En'),
+            'name_hi' => Yii::t('app', 'Name in Hindi'),
+            'name_en' => Yii::t('app', 'Name in English'),
             'circle_id' => Yii::t('app', 'Circle ID'),
         ];
     }

@@ -25,7 +25,9 @@ class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
-
+    public $oldpassword='';
+    public $newpassword;
+    public $newpasswordrepeat;
     /**
      * @inheritdoc
      */
@@ -43,7 +45,13 @@ class User extends ActiveRecord implements IdentityInterface
             TimestampBehavior::className(),
         ];
     }
-
+public function scenarios()
+    {
+        return [
+            'passwordchange' => ['oldpassword', 'newpassword','newpasswordrepeat'],
+            
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -52,6 +60,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+           [ ['oldpassword','newpassword','newpasswordrepeat'],'required','on'=>'passwordchange'],
         ];
     }
 
@@ -195,5 +204,25 @@ class User extends ActiveRecord implements IdentityInterface
 
                 $this->save();
 
+        }
+        /*verify model on scenario changepassword*/
+        public function changePassword()
+        {
+          $this->scenario='passwordchange';
+          
+          if( $this->validate() && $this->validatePassword($this->oldpassword) && ($this->newpassword==$this->newpasswordrepeat))
+           
+              {
+              $this->setPassword($this->newpassword);
+              $this->save();
+              return true;
+              }
+              else 
+                {
+                  if (!$this->validatePassword($this->oldpassword)) $this->addError('oldpassword','Your password is invalid');
+                  if ($this->newpasswordrepeat!=$this->newpassword) $this->addError('newpasswordrepeat','New password  and repeat password are not same');
+                  return false;
+               }
+          
         }
 }

@@ -4,7 +4,7 @@ use Yii;
 use app\modules\users\models\LoginForm;
 use app\modules\users\models\PasswordResetRequestForm;
 use app\modules\users\models\ResetPasswordForm;
-
+use app\modules\users\models\User;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -126,15 +126,14 @@ class UserController extends Controller
     }
      public function actionChangepassword()
     {
-        $oldpwd=Yii::$app->request->post('oldpassword');
-        $newpwd=Yii::$app->request->post('newpassword');
-        $newpwdrepeat=Yii::$app->request->post('newpasswordrepeat');
-        if ($oldpwd && ($oldpwd!='') && ($newpwd==$newpwdrepeat))
-         {
-           if (Yii::$app->user->getIdentity()->validatePassword($oldpwd))
-            Yii::$app->user->setIdentity()->setPassword($newpwd);
-         }
+       $user = Yii::$app->user->identity;
+       
+       $user->scenario='passwordchange';
+       $user->oldpassword=null;
+      if ( $user->load(Yii::$app->request->post()) && $user->changePassword())
+       
+          return $this->render('passwordchanged');
         
-        return $this->render('ChangePassword');
+        return $this->render('ChangePassword',['model'=>$user]);
     }
 }

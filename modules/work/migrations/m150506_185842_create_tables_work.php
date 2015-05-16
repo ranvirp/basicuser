@@ -37,6 +37,13 @@ class m150506_185842_create_tables_work extends Migration
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);
+        $this->createTable('{{%work_events}}',
+        [
+          'id'=>Schema::TYPE_PK,
+          'work_id'=>Schema::TYPE_INTEGER.' NOT NULL',
+          'dateofevent'=>Schema::TYPE_DATE.' NOT NULL',
+          'event_id'=>Schema::TYPE_INTEGER.' NOT NULL'
+        ],$tableOptions);
          $this->createTable('{{%work_progress}}', [
             'id' => Schema::TYPE_PK,
             'work_id'=>Schema::TYPE_INTEGER,

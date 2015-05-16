@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -78,9 +79,13 @@ AppAsset::register($this);
         
         Yii::$app->user->isGuest ?
         ['label' => 'Login', 'url' => ['/users/user/login']] :
-        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+        ['label' => \app\modules\users\models\Designation::find()->where(['officer_userid'=>Yii::$app->user->id])->one()->name_en.' (' . Yii::$app->user->identity->username . ')',
             'url' => ['/users/user/logout'],
-            'linkOptions' => ['data-method' => 'post']],],'options'=>['class'=>'navbar-nav']
+            'items'=>[
+            ['label'=>'Change Password','url'=>['/users/user/changepassword']],
+            ['label'=>'Logout','url'=>['/users/user/logout'],'linkOptions' => ['data-method' => 'post']],
+            ]
+            ],],'options'=>['class'=>'navbar-nav']
 ]);
 
             NavBar::end();

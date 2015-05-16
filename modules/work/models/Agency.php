@@ -29,7 +29,9 @@ class Agency extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_hi', 'name_en'], 'string', 'max' => 200]
+            [['name_hi', 'name_en'], 'string', 'max' => 200],
+            [['name_en'],'required'],
+            [['name_en'],'unique']
         ];
     }
 
@@ -40,8 +42,8 @@ class Agency extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name_hi' => 'Name Hi',
-            'name_en' => 'Name En',
+            'name_hi' => 'Name in Hindi',
+            'name_en' => 'Name in English',
         ];
     }
 

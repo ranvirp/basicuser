@@ -297,8 +297,8 @@ public function behaviors()
 			    break;
 									
 			case 'division_id':
-			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Division::find()->asArray()->all(),"id","name_".Yii::$app->language));
-			    
+			  // return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Division::find()->asArray()->all(),"id","name_".Yii::$app->language));
+			    return $form->field($this,$attribute)->widget(\app\modules\work\widgets\DivisionWidget::classname());
 			    break;
 									
 

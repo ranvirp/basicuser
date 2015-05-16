@@ -33,6 +33,7 @@ class Circle extends \yii\db\ActiveRecord
             [['name_hi', 'name_en'], 'string', 'max' => 200],
             [['code'], 'string', 'max' => 7],
              [['code','name_hi','name_en'],'required'],
+             [['code','name_en'],'unique'],
         ];
     }
 
