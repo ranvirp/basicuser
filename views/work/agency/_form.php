@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 use app\common\Utility;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\work\models\Circle */
+/* @var $model app\modules\work\models\Agency */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <?php
@@ -13,16 +13,16 @@ use app\common\Utility;
  $changeattribute='';
 $this->registerJs(
    '$("document").ready(function(){ 
-        $("#new_circle").on("pjax:end", function() {
-            $.pjax.reload({container:"#circles"});  //Reload GridView
+        $("#new_agency").on("pjax:end", function() {
+            $.pjax.reload({container:"#agencys"});  //Reload GridView
         });
     });'
 );
 ?>
-<div class="bordered-form circle-form">
+<div class="bordered-form agency-form">
   <div class="form-title">
     <div class="form-title-span">
-        <span>Form for creating Circle</span>
+        <span>Form for creating Agency</span>
     </div>
 </div>
     <?php $form = ActiveForm::begin([
@@ -39,8 +39,6 @@ $this->registerJs(
     ],
 ]); ?>
 
-    <?= $model->showForm($form,"code") ?>
-
     <?= $model->showForm($form,"name_hi") ?>
 
     <?= $model->showForm($form,"name_en") ?>
@@ -48,9 +46,9 @@ $this->registerJs(
 <?php
 /*
 try {
-$x= Utility::rules()["app\modules\work\models\Circle"][$changeattribute];
+$x= Utility::rules()["app\modules\work\models\Agency"][$changeattribute];
 } catch (Exception $e) {$x=null;}
-$modelArray=Yii::$app->request->post("Circle");
+$modelArray=Yii::$app->request->post("Agency");
 		if ($x && $model && array_key_exists($changeattribute,$modelArray) && array_key_exists($modelArray[$changeattribute],$x))
 		{
 			$attribute_value=$modelArray[$changeattribute];

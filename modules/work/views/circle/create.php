@@ -1,20 +1,17 @@
 <?php
 
-use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Circle */
+/* @var $model app\modules\work\models\Circle */
 
-$this->title = 'Create Circle';
-$this->params['breadcrumbs'][] = ['label' => 'Circles', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'Circle',
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Circles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="circle-create">
-
-    
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+<?=  $this->render('_form');
+	   ?>
 </div>

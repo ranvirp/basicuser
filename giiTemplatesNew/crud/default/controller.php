@@ -72,6 +72,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model'=>$searchModel
         ]);
 <?php else: ?>
         $dataProvider = new ActiveDataProvider([

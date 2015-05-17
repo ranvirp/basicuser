@@ -3,11 +3,11 @@
 namespace app\modules\work\controllers;
 
 use Yii;
+use app\common\Utility;
 use app\modules\work\models\Circle;
-use yii\data\ActiveDataProvider;
+use app\modules\work\models\CircleSearch;
 use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
-
 use yii\filters\VerbFilter;
 
 /**
@@ -33,12 +33,13 @@ class CircleController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Circle::find(),
-        ]);
+        $searchModel = new CircleSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model'=>new Circle,
         ]);
     }
 
@@ -59,17 +60,35 @@ class CircleController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    
     public function actionCreate()
     {
-		$model = new Circle();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+       
+       
+        $model = new Circle();
+ 
+        if ($model->load(Yii::$app->request->post()))
+        {
+           if (array_key_exists('app\modules\work\models\Circle',Utility::rules()))
+            foreach ($model->attributes as $attribute)
+            if (Utility::rules('app\modules\work\models\Circle') && array_key_exists($attribute,Utility::rules()['app\modules\work\models\Circle']))
+            $model->validators->append(
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Circle'][$model->$attribute]['required'])
+            );
+            if ($model->save())
+            $model = new Circle();; //reset model
         }
+ 
+        $searchModel = new CircleSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
+
     }
 
     /**
@@ -78,22 +97,35 @@ class CircleController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+        public function actionUpdate($id)
     {
-        if (!Yii::$app->user->can('operator'))
-			throw new NotFoundHttpException('The requested page does not exist.');
-
-		$model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+         $model = $this->findModel($id);
+       
+ 
+        if ($model->load(Yii::$app->request->post()))
+        {
+        if (array_key_exists('app\modules\work\models\Circle',Utility::rules()))
+           
+            foreach ($model->attributes as $attribute)
+            if (array_key_exists($attribute,Utility::rules()['app\modules\work\models\Circle']))
+            $model->validators->append(
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\Circle'][$model->$attribute]['required'])
+            );
+            if ($model->save())
+            $model = new Circle();; //reset model
         }
-    }
+ 
+       $searchModel = new CircleSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
 
+    }
     /**
      * Deletes an existing Circle model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -102,9 +134,6 @@ class CircleController extends Controller
      */
     public function actionDelete($id)
     {
-		if (!Yii::$app->user->can('operator'))
-			throw new NotFoundHttpException('The requested page does not exist.');
-
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

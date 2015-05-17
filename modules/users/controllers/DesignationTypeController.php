@@ -6,7 +6,7 @@ use Yii;
 use app\common\Utility;
 use app\modules\users\models\DesignationType;
 use app\modules\users\models\DesignationTypeSearch;
-use yii\web\Controller;
+use app\modules\users\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

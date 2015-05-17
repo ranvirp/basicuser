@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 use app\common\Utility;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\work\models\Circle */
+/* @var $model app\modules\work\models\MaterialType */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <?php
@@ -13,16 +13,16 @@ use app\common\Utility;
  $changeattribute='';
 $this->registerJs(
    '$("document").ready(function(){ 
-        $("#new_circle").on("pjax:end", function() {
-            $.pjax.reload({container:"#circles"});  //Reload GridView
+        $("#new_material-type").on("pjax:end", function() {
+            $.pjax.reload({container:"#material-types"});  //Reload GridView
         });
     });'
 );
 ?>
-<div class="bordered-form circle-form">
+<div class="bordered-form material-type-form">
   <div class="form-title">
     <div class="form-title-span">
-        <span>Form for creating Circle</span>
+        <span>Form for creating MaterialType</span>
     </div>
 </div>
     <?php $form = ActiveForm::begin([
@@ -39,18 +39,24 @@ $this->registerJs(
     ],
 ]); ?>
 
-    <?= $model->showForm($form,"code") ?>
-
     <?= $model->showForm($form,"name_hi") ?>
 
     <?= $model->showForm($form,"name_en") ?>
 
+    <?= $model->showForm($form,"unitcost_1314") ?>
+
+    <?= $model->showForm($form,"unitcost_1415") ?>
+
+    <?= $model->showForm($form,"unitcost_1516") ?>
+
+    <?= $model->showForm($form,"unit_type") ?>
+
 <?php
 /*
 try {
-$x= Utility::rules()["app\modules\work\models\Circle"][$changeattribute];
+$x= Utility::rules()["app\modules\work\models\MaterialType"][$changeattribute];
 } catch (Exception $e) {$x=null;}
-$modelArray=Yii::$app->request->post("Circle");
+$modelArray=Yii::$app->request->post("MaterialType");
 		if ($x && $model && array_key_exists($changeattribute,$modelArray) && array_key_exists($modelArray[$changeattribute],$x))
 		{
 			$attribute_value=$modelArray[$changeattribute];

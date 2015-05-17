@@ -54,6 +54,7 @@ class PhotoCreateAction extends \yii\rest\Action
            // file_put_contents('bodyparams.txt', Yii::$app->getRequest()->getBodyParams());
             //exit;
 		   $model->created_by=$user->id;
+		   $model->created_at=Yii::$app->getRequest()->getBodyParams('created_time');
 
         if ($model->save()) {
             $response = Yii::$app->getResponse();

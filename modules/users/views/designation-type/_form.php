@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 use app\common\Utility;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\work\models\Circle */
+/* @var $model app\modules\masterdata\models\DesignationType */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <?php
@@ -13,18 +13,15 @@ use app\common\Utility;
  $changeattribute='';
 $this->registerJs(
    '$("document").ready(function(){ 
-        $("#new_circle").on("pjax:end", function() {
-            $.pjax.reload({container:"#circles"});  //Reload GridView
+        $("#new_designation-type").on("pjax:end", function() {
+            $.pjax.reload({container:"#designation-types"});  //Reload GridView
         });
     });'
 );
 ?>
-<div class="bordered-form circle-form">
-  <div class="form-title">
-    <div class="form-title-span">
-        <span>Form for creating Circle</span>
-    </div>
-</div>
+<h3>Form for creating designation-type</h3>
+<div class="bordered-form designation-type-form">
+
     <?php $form = ActiveForm::begin([
     'layout' => 'horizontal',
     'fieldConfig' => [
@@ -39,34 +36,15 @@ $this->registerJs(
     ],
 ]); ?>
 
-    <?= $model->showForm($form,"code") ?>
+    <?= $model->showForm($form,"level_id") ?>
 
     <?= $model->showForm($form,"name_hi") ?>
 
     <?= $model->showForm($form,"name_en") ?>
 
-<?php
-/*
-try {
-$x= Utility::rules()["app\modules\work\models\Circle"][$changeattribute];
-} catch (Exception $e) {$x=null;}
-$modelArray=Yii::$app->request->post("Circle");
-		if ($x && $model && array_key_exists($changeattribute,$modelArray) && array_key_exists($modelArray[$changeattribute],$x))
-		{
-			$attribute_value=$modelArray[$changeattribute];
-			
-			foreach ($x[$attribute_value]["show"] as $field)
-			{
-			  
-				echo "<div class=\"row\">\n";
-			
-				echo $model->showForm($form,$field);
-				echo "</div>";
-			
-			}
-		}
-**/
-?>    <div class="form-group">
+    <?= $model->showForm($form,"shortcode") ?>
+
+    <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

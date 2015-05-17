@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\work\models\Circle */
+/* @var $model app\modules\work\models\MaterialType */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Circles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Material Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="circle-view">
+<div class="material-type-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,9 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'code',
             'name_hi',
             'name_en',
+            'unitcost_1314',
+            'unitcost_1415',
+            'unitcost_1516',
+            'unit_type',
         ],
     ]) ?>
 

@@ -54,6 +54,7 @@ class MaterialType extends \yii\db\ActiveRecord
         ];
     }
 
+
     /**
      * @return \yii\db\ActiveQuery
      */

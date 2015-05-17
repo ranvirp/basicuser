@@ -44,12 +44,12 @@ AppAsset::register($this);
              ['label' => 'Department', 'url' => ['/users/department/create'],'options'=>['class'=>'dropdown']],
             
              ['label' => 'Designation', 'url' => ['/users/designation/create'],'options'=>['class'=>'dropdown']],
-             ['label' => 'DesignationType', 'url' => ['/users/designationtype/create'],'options'=>['class'=>'dropdown']],
+             ['label' => 'DesignationType', 'url' => ['/users/designation-type/create'],'options'=>['class'=>'dropdown']],
               ['label' => 'Division', 'url' => ['/work/division/create'],'options'=>['class'=>'dropdown']],
              ['label' => 'Substation', 'url' => ['/work/substation/create'],'options'=>['class'=>'dropdown']],
              ['label' => 'Circle', 'url' => ['/work/circle/create'],'options'=>['class'=>'dropdown']],
              ['label' => 'Scheme', 'url' => ['/work/scheme/create'],'options'=>['class'=>'dropdown']],
-            ['label' => 'MaterialType', 'url' => ['/work/materialtype/create'],'options'=>['class'=>'dropdown']],
+            ['label' => 'MaterialType', 'url' => ['/work/material-type/create'],'options'=>['class'=>'dropdown']],
             
             
                 

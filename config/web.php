@@ -7,19 +7,20 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     //'homeUrl'=>'site',
-    'language'=>'en',
+   //'language'=>'en',
     'components' => [
     'authManager' => [
 		  'class' => '\yii\rbac\DbManager',
-		  'ruleTable' => 'authrule', // Optional
-		  'itemTable' => 'authitem',  // Optional
-		  'itemChildTable' => 'authitemchild',  // Optional
-		  'assignmentTable' => 'authassignment',  // Optional
+		 //'ruleTable' => '{{%authrule}}', // Optional
+		  //'itemTable' => '{{%authitem}}',  // Optional
+		  //'itemChildTable' => '{{%authitemchild}}',  // Optional
+		  //'assignmentTable' => '{{%authassignment}}',  // Optional
 		  ],
     'urlManager' => [
 			'enablePrettyUrl' => true,
 			'rules' => [
 				['class' => 'yii\rest\UrlRule', 'controller' => 'api/photo'],
+				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			],
 			],
                         'request' => [
@@ -57,12 +58,17 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
     ],
-    'modules'=>['users'=>['class'=>'app\modules\users\Module'],
+    'modules'=>[
+    'users'=>['class'=>'app\modules\users\Module'],
     'reply'=>['class'=>'app\modules\reply\Module'],
     'work'=>['class'=>'app\modules\work\Module'],
     'gridview'=>['class'=>'kartik\grid\Module'],
     'api'=>['class'=>'app\modules\api\Module'],
     'gpsphoto'=>['class'=>'app\modules\gpsphoto\Module'],
+     'rbac' => [
+        'class' => 'dektrium\rbac\Module',
+        'admins'=>['admin'],
+    ],
     
     ],
     'params' => $params,
