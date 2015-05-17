@@ -36,6 +36,7 @@ return \dosamigos\highcharts\HighCharts::widget([
 	}
 	public static function createPieChart()
 	{
+            /*
 	return \dosamigos\highcharts\HighCharts::widget([
     'clientOptions' => [
 	   'chart'=> [
@@ -80,7 +81,7 @@ return \dosamigos\highcharts\HighCharts::widget([
             ]
         ]]]
     ]);
-
+*/
 	}
 	
 }
