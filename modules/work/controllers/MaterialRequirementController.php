@@ -1,11 +1,13 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\work\controllers;
 
 use Yii;
-use app\models\MaterialRequirement;
-use yii\data\ActiveDataProvider;
+use app\common\Utility;
+use app\modules\work\models\MaterialRequirement;
+use app\modules\work\models\MaterialRequirementSearch;
 use yii\web\Controller;
+//use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -32,11 +34,11 @@ class MaterialRequirementController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => MaterialRequirement::find(),
-        ]);
+        $searchModel = new MaterialRequirementSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -58,8 +60,9 @@ class MaterialRequirementController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate1()
+    public function actionCreate()
     {
+        /*
         $model = new MaterialRequirement();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -69,6 +72,33 @@ class MaterialRequirementController extends Controller
                 'model' => $model,
             ]);
         }
+          
+         
+        */   
+        $model = new MaterialRequirement();
+ 
+        if ($model->load(Yii::$app->request->post()))
+        {
+           if (array_key_exists('app\modules\work\models\MaterialRequirement',Utility::rules()))
+            foreach ($model->attributes as $attribute)
+            if (Utility::rules('app\modules\work\models\MaterialRequirement') && array_key_exists($attribute,Utility::rules()['app\modules\work\models\MaterialRequirement']))
+            $model->validators->append(
+               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\work\models\MaterialRequirement'][$model->$attribute]['required'])
+            );
+            if ($model->save())
+            $model = new MaterialRequirement(); //reset model
+        }
+ 
+        $searchModel = new MaterialRequirementSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
+        
     }
 
     /**
@@ -118,24 +148,4 @@ class MaterialRequirementController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-	public function actionCreate($wid)
-	{
-		$model = new MaterialRequirement();
-        $model->work_id=$wid;
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
-            $model = new MaterialRequirement();
-			$model->work_id=$wid;//reset model
-        }
- 
-       
-        $dataProvider = new ActiveDataProvider(['query'=>MaterialRequirement::find()->where('work_id='.$wid)->orderBy('id desc')]);
- 
-        return $this->render('index_simple', [
-            //'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ]);
-
-	}
 }

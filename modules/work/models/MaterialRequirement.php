@@ -1,5 +1,4 @@
 <?php
-
 namespace app\modules\work\models;
 
 use Yii;
@@ -12,13 +11,13 @@ use Yii;
  * @property integer $material_type_id
  * @property double $qty
  * @property double $value
+ * @property double $issuedqty
  *
  * @property MaterialType $materialType
- * @property Work $work
+ * @property Division $work
  */
 class MaterialRequirement extends \yii\db\ActiveRecord
 {
-	public $cnt,$totqty;
     /**
      * @inheritdoc
      */
@@ -34,7 +33,7 @@ class MaterialRequirement extends \yii\db\ActiveRecord
     {
         return [
             [['work_id', 'material_type_id'], 'integer'],
-            [['qty', 'value'], 'number']
+            [['qty', 'value', 'issuedqty'], 'string']
         ];
     }
 
@@ -44,11 +43,12 @@ class MaterialRequirement extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'work_id' => 'Work ',
-            'material_type_id' => 'Material Type',
-            'qty' => 'Qty',
-            'value' => 'Value',
+            'id' => Yii::t('app', 'ID'),
+            'work_id' => Yii::t('app', 'Work ID'),
+            'material_type_id' => Yii::t('app', 'Material Type ID'),
+            'qty' => Yii::t('app', 'Qty'),
+            'value' => Yii::t('app', 'Value'),
+            'issuedqty' => Yii::t('app', 'Issuedqty'),
         ];
     }
 
@@ -65,10 +65,82 @@ class MaterialRequirement extends \yii\db\ActiveRecord
      */
     public function getWork()
     {
-        return $this->hasOne(Work::className(), ['id' => 'work_id']);
+        return $this->hasOne(Division::className(), ['id' => 'work_id']);
     }
-	public static function getMaterialSummary($query)
+	/*
+	*@return form of individual elements
+	*/
+	public function showForm($form,$attribute)
 	{
-		return $query->select('count(*) as cnt,sum(qty) as totqty')->groupBy('material_type_id');
-	}
+		switch ($attribute)
+		  {
+		   
+									
+			case 'id':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'work_id':
+			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Division::find()->asArray()->all(),"id","name_".Yii::$app->language),["prompt"=>"None.."]);
+			    
+			    break;
+									
+			case 'material_type_id':
+			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(MaterialType::find()->asArray()->all(),"id","name_".Yii::$app->language),["prompt"=>"None.."]);
+			    
+			    break;
+									
+			case 'qty':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'value':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+									
+			case 'issuedqty':
+			   return  $form->field($this,$attribute)->textInput();
+			    
+			    break;
+			 
+			default:
+			break;
+		  }
+    }
+	/*
+	*@return form of individual elements
+	*/
+	public function showValue($attribute)
+	{
+	    $name='name_'.Yii::$app->language;
+		switch ($attribute)
+		  {
+		   
+									
+			case 'id':
+			   return $this->id;			    break;
+									
+			case 'work_id':
+			   return Division::findOne($this->work_id)->$name;			    break;
+									
+			case 'material_type_id':
+			   return MaterialType::findOne($this->material_type_id)->$name;			    break;
+									
+			case 'qty':
+			   return $this->qty;			    break;
+									
+			case 'value':
+			   return $this->value;			    break;
+									
+			case 'issuedqty':
+			   return $this->issuedqty;			    break;
+			 
+			default:
+			break;
+		  }
+    }
+	
 }

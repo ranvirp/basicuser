@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\MaterialRequirement */
+/* @var $model app\modules\work\models\MaterialRequirement */
 
-$this->title = 'Create Material Requirement';
-$this->params['breadcrumbs'][] = ['label' => 'Material Requirements', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Material Requirement');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Material Requirements'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="material-requirement-create">

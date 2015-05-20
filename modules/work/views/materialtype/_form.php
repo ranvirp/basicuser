@@ -13,8 +13,8 @@ use app\common\Utility;
  $changeattribute='';
 $this->registerJs(
    '$("document").ready(function(){ 
-        $("#new_material-type").on("pjax:end", function() {
-            $.pjax.reload({container:"#material-types"});  //Reload GridView
+        $("#new_materialtype").on("pjax:end", function() {
+            $.pjax.reload({container:"#materialtypes"});  //Reload GridView
         });
     });'
 );
