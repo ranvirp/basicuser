@@ -3,14 +3,12 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\work\models\MaterialRequirement */
+/* @var $model app\models\MaterialRequirement */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Material Requirement',
-]) . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Material Requirements'), 'url' => ['index']];
+$this->title = 'Update Material Requirement: ' . ' ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Material Requirements', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="material-requirement-update">
 
