@@ -1,59 +1,38 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use app\modules\users\models\DesignationType;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\masterdata\models\DesignationSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
- 
-  $js="
 
-$(\"#toggleButton\").click(function () {
- 
-    // Set the effect type
-    var effect = 'slide';
- 
-    // Set the options for the effect type chosen
-    var options = { direction: 'right' };
- 
-    // Set the duration (default: 400 milliseconds)
-    var duration = 700;
- 
-    $('#designation-grid').toggle(effect, options, duration);
-    $('#designation-form').removeClass();
-    
-    $('#designation-form').addClass('col-lg-12');
-    $(this).text('Show Grid');
-});
-";
-$this->registerJs($js);
+/* @var $this yii\web\View */
+/* @var $searchModel app\modules\masterdata\models\DesignationTypeSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Designations');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<button class="btn btn-success" id="toggleButton">Hide Grid</button>
-
-<?php if ($model!=null):?><div class="col-lg-6" id="designation-form">
+<?php if ($model!=null):?><div class="col-lg-6">
 <?=$this->render('_form',['model'=>$model]) ?></div>
-<div class="col-lg-6" id="designation-grid">
-<?php else:?><div class="col-lg-12" id="designation-grid">
-<?php endif;?><div class="designation-index">
+<div class="col-lg-6">
+<?php else:?><div class="col-lg-12">
+<?php endif;?><div class="designation-type-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'kartik\grid\SerialColumn'],
 
 ['header'=>'id',
 'value'=>function($model,$key,$index,$column)
 {
                 return $model->showValue('id');
-},],['header'=>'Designation Type',
+},],
+    ['header'=>'Designation Type',
 'attribute'=>'designation_type_id',
 'value'=>function($model,$key,$index,$column)
 {
@@ -86,6 +65,5 @@ $this->params['breadcrumbs'][] = $this->title;
        // 'tableOptions'=>['class'=>'small'],
     
     ]); ?>
-
 </div>
 </div>

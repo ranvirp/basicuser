@@ -5,7 +5,8 @@ namespace app\modules\work\controllers;
 use Yii;
 use app\modules\work\models\AEArea;
 use yii\data\ActiveDataProvider;
-use app\modules\work\Controller;
+//use app\modules\work\Controller;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

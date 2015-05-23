@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -13,6 +14,11 @@ use yii\widgets\ActiveForm;
 </p>
 <?php endif;?>
 <div class="designation-form bordered-form">
+  <div class="form-title">
+    <div class="form-title-span">
+        <span>Form for creating Designation</span>
+    </div>
+</div>
 <?php 
 if ($model->designation_type_id && $model->level_id)
   {
@@ -41,33 +47,38 @@ $this->registerJs($js);
 	
 	?>
     <?php $form = ActiveForm::begin(); ?>
-    <?php $items = \yii\helpers\ArrayHelper::map(\app\modules\users\models\DesignationType::find()->asArray()->all(),'id','name_'.$lang);?>
+
     <div class='row'>
 		<div class='col-md-6'>
-	<?= $form->field($model, 'designation_type_id')->dropDownList($items,['id'=>'dtid','prompt'=>'None','onClick'=>'js:populateDropdown("'.$url.'"+$(this).val(),"'.$id.'")']) ?>
+	
+                        <?= $model->showForm($form,"designation_type_id") ?>
+
 		</div>
 		<div class='col-md-6'>
-    <?= $form->field($model, 'level_id')->dropDownList($dd,['id'=>'level-id','prompt'=>'None']) ?>
+    
+                    <?= $model->showForm($form,"level_id") ?>
 	</div>
 	</div>
 	<div class='row'>
 		<div class='col-md-6'>
-    <?= $form->field($model, 'officer_name_hi')->textInput(['maxlength' => 100,'class'=>'hindiinput form-control']) ?>
+    
+                    <?= $model->showForm($form,"officer_name_hi") ?>
 		</div>
 		<div class='col-md-6'>
-    <?= $form->field($model, 'officer_name_en')->textInput(['maxlength' => 100]) ?>
+    
+                    <?= $model->showForm($form,"officer_name_en") ?>
 	</div>
 	</div>
 	<div class='row'>
 		<div class='col-md-4'>
-    <?= $form->field($model, 'officer_mobile')->textInput(['maxlength' => 12]) ?>
+                    <?= $model->showForm($form,"officer_mobile") ?>
 		</div>
 			<div class='col-md-4'>
-    <?= $form->field($model, 'officer_mobile1')->textInput(['maxlength' => 12]) ?>
+                   <?= $model->showForm($form,"officer_mobile1") ?>   
+
 </div>
-		
 				<div class='col-md-4'>
-    <?= $form->field($model, 'officer_email')->textInput(['maxlength' => 50]) ?>
+                                      <?= $model->showForm($form,"officer_email") ?>
 	</div>
 		</div>
 		

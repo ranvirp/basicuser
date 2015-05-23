@@ -28,7 +28,8 @@ class AEArea extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['division_id'], 'integer'],
+            [['division_id'], 'integer'],            
+            [['code'],'string','max' => 5],
             [['name_hi', 'name_en'], 'string', 'max' => 50]
         ];
     }
@@ -40,6 +41,7 @@ class AEArea extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'code' => 'CODE',
             'name_hi' => 'Name Hi',
             'name_en' => 'Name En',
             'division_id' => 'Division ID',

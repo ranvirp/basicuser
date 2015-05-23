@@ -7,7 +7,7 @@ use Yii;
  * This is the model class for table "work_type".
  *
  * @property integer $id
- * @property string $category
+ * @property string $code
  * @property string $name_hi
  * @property string $name_en
  *
@@ -15,19 +15,6 @@ use Yii;
  */
 class WorkType extends \yii\db\ActiveRecord
 {
-	const MAINTENANCE=1;
-	const SYSTEM_IMPROVEMENT=2;
-	public static function categories()
-	 {
-	 	return
-	 	[
-	 	 self::MAINTENANCE=>'MAINTENANCE',
-	 	 self::SYSTEM_IMPROVEMENT=>'System Improvement',
-
-	 	 
-
-	 	];
-	 }
     /**
      * @inheritdoc
      */
@@ -42,9 +29,8 @@ class WorkType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category'], 'string', 'max' => 5],
-            [['name_hi', 'name_en'], 'string', 'max' => 255],
-            [['name_en'],'unique'],
+            [['code'], 'string', 'max' => 5],
+            [['name_hi', 'name_en'], 'string', 'max' => 255]
         ];
     }
 
@@ -55,7 +41,7 @@ class WorkType extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'category' => Yii::t('app', 'Category'),
+            'code' => Yii::t('app', 'Code'),
             'name_hi' => Yii::t('app', 'Name Hi'),
             'name_en' => Yii::t('app', 'Name En'),
         ];
@@ -82,13 +68,13 @@ class WorkType extends \yii\db\ActiveRecord
 			    
 			    break;
 									
-			case 'category':
-			   return  $form->field($this,$attribute)->dropDownList($this->categories());
+			case 'code':
+			   return  $form->field($this,$attribute)->textInput();
 			    
 			    break;
 									
 			case 'name_hi':
-			   return  $form->field($this,$attribute)->textInput(['class'=>'hindiinput form-control']);
+			   return  $form->field($this,$attribute)->textInput();
 			    
 			    break;
 									
@@ -114,8 +100,8 @@ class WorkType extends \yii\db\ActiveRecord
 			case 'id':
 			   return $this->id;			    break;
 									
-			case 'category':
-			   return self::categories()[$this->category];			    break;
+			case 'code':
+			   return $this->code;			    break;
 									
 			case 'name_hi':
 			   return $this->name_hi;			    break;

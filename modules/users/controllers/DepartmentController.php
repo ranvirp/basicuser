@@ -69,7 +69,7 @@ class DepartmentController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
            if (array_key_exists('app\modules\users\models\Department',Utility::rules()))
-            foreach ($model->attributes as $attribute)
+            foreach ($model->attributes as $attribute)                
             if (Utility::rules('app\modules\users\models\Department') && array_key_exists($attribute,Utility::rules()['app\modules\users\models\Department']))
             $model->validators->append(
                \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\users\models\Department'][$model->$attribute]['required'])

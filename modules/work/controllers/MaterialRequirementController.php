@@ -1,11 +1,12 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\work\controllers;
 
 use Yii;
-use app\models\MaterialRequirement;
+use app\modules\work\models\MaterialRequirement;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+//use app\modules\work\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

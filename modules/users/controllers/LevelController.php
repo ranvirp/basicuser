@@ -61,9 +61,7 @@ class LevelController extends Controller
      */
     
     public function actionCreate()
-    {
-       
-       
+    {       
         $model = new Level();
  
         if ($model->load(Yii::$app->request->post()))

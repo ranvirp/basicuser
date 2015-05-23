@@ -4,33 +4,36 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\modules\work\models\MaterialRequirementSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Material Requirements';
+$this->title = Yii::t('app', 'Material Requirements');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="material-requirement-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-   
-
-   
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Material Requirement'), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-		
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-           [
-            'header'=>'Type',
-			   'value'=>function($model,$key,$index,$column){
-		$name='name_'.Yii::$app->language;
-		return \app\models\Materialtype::findOne($model->material_type)->$name;},
-			   ],
+            'id',
+            'work_id',
+            'material_type_id',
             'qty',
             'value',
+            // 'issuedqty',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 
+</div>

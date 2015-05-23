@@ -6,7 +6,8 @@ use Yii;
 use app\common\Utility;
 use app\modules\work\models\MaterialType;
 use app\modules\work\models\MaterialTypeSearch;
-use app\modules\work\Controller;
+//use app\modules\work\Controller;
+use yii\web\controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

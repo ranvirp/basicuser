@@ -130,8 +130,8 @@ class Substation extends \yii\db\ActiveRecord
 			    break;
 									
 			case 'substation_type':
-			   return  $form->field($this,$attribute)->dropDownList($this->substation_type(),['prompt'=>'None']);
-                
+			   return  $form->field($this,$attribute)->textInput();
+                                        //dropDownList($this->substation_type(),['prompt'=>'None']);
 			    break;
 									
 			case 'voltageratio':

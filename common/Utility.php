@@ -2,7 +2,7 @@
 namespace app\common;
 class Utility
 {
-public function rules()
+public static function rules()
 {
 $x['\app\models\Work']['work_type']=  [3=>['show'=>['address','gpslat','gpslong'],'required'=>['address','gpslat','gpslong']],
 			4=>['show'=>['substation_id'],'required'=>['substation_id']],

@@ -12,6 +12,7 @@ body {
 
 .wrap > .container {
     padding: 70px 15px 20px;
+    text-shadow: 1px 1px 1px #999;
 }
 
 .footer {
@@ -29,7 +30,11 @@ body {
 .jumbotron .btn {
     font-size: 21px;
     padding: 14px 24px;
+   
 }
+
+
+
 
 .not-set {
     color: #c55;
@@ -90,11 +95,8 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-.work-form,.circle-form,.division-form,.substation-form,.feeder-form,.scheme-form
- {
-    box-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);
-    
-    
+.work-form,.circle-form,.division-form,.substation-form,.feeder-form,.scheme-form,.department-form,.level-form{
+    box-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);    
  }
  .form-title
   {
@@ -104,6 +106,8 @@ a.desc:after {
     font-family: Arial,sans-serif;
     font-weight: normal;
     padding: 9px 3px 6px;
+    box-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);
+    text-shadow: 2px 3px 4px #666;
   }
   .form-title-span
   {
@@ -116,3 +120,7 @@ a.desc:after {
     font-size:12px;
    }
 
+   .level-index,.department-index{
+   box-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);    
+   }
+   

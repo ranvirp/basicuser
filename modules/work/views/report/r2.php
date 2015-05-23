@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'totvalue',
 		['class' => 'yii\grid\ActionColumn'],
 	];
+        /*        
 	$searchModel = new \app\modules\work\models\WorkSearch;
 	echo GridView::widget([
 		'dataProvider' => $dataProvider,
@@ -70,6 +71,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		//'ajaxUpdate'=>true,
 		'tableOptions' => ['class' => 'table table-responsive table-striped small'],
 	]);
+         * 
+         */
 	?>
 
 </div>

@@ -8,8 +8,7 @@ class Controller extends \yii\web\Controller
   {
     if (Yii::$app->user->can($this->id.$action->id))
       return parent::beforeAction($action);
-    throw new \yii\web\MethodNotAllowedHttpException("You are not permitted to perform this action");
-       
+    throw new \yii\web\MethodNotAllowedHttpException("You are not permitted to perform this action"); 
   }
 
 }

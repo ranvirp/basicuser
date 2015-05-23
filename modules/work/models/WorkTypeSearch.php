@@ -19,7 +19,7 @@ class WorkTypeSearch extends WorkType
     {
         return [
             [['id'], 'integer'],
-            [['category', 'name_hi', 'name_en'], 'safe'],
+            [['code', 'name_hi', 'name_en'], 'safe'],
         ];
     }
 
@@ -59,7 +59,7 @@ class WorkTypeSearch extends WorkType
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'category', $this->category])
+        $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'name_hi', $this->name_hi])
             ->andFilterWhere(['like', 'name_en', $this->name_en]);
 

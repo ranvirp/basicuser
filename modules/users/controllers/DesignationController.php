@@ -64,7 +64,6 @@ class DesignationController extends Controller
     public function actionCreate()
     {
        
-       
         $model = new Designation();
  
         if ($model->load(Yii::$app->request->post()))
@@ -72,24 +71,22 @@ class DesignationController extends Controller
           if (!($searchmodel=Designation::findOne(['designation_type_id'=>$model->designation_type_id,'level_id'=>$model->level_id])))
            {
              
-           if (array_key_exists('app\modules\users\models\Designation',Utility::rules()))
-            foreach ($model->attributes as $attribute)
-            if (Utility::rules('Designation') && array_key_exists($attribute,Utility::rules()['app\modules\users\models\Designation']))
-            $model->validators->append(
-               \yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\users\models\Designation'][$model->$attribute]['required'])
-            );
-            if ($model->validate())
-            {
-            $model->createUserAndRole();
-             $model = new Designation();; //reset model
-           
-      
-            }
+                if (array_key_exists('app\modules\users\models\Designation',Utility::rules()))
+                foreach ($model->attributes as $attribute)
+                if (Utility::rules('app\modules\users\models\Designation') && array_key_exists($attribute,Utility::rules()['app\modules\users\models\Designation']))
+                {
+                    $model->validators->append(\yii\validators\Validator::createValidator('required', $model, Utility::rules()['app\modules\users\models\Designation'][$model->$attribute]['required']));
+                }else {throw new NotFoundHttpException('Error2');}        
+                 if ($model->validate())
+                {
+                    $model->createUserAndRole();
+                    $model = new Designation();; //reset model
+                }else {throw new NotFoundHttpException('Error Creating User And Role');}
             }
             else 
-              {
+            {
                 \Yii::$app->getSession()->setFlash('error', 'Designation already Exists. Try Updating <a href="'.\yii\helpers\Url::to(['/users/designation/update?id='.$searchmodel->id]).'">Update</a>');
-              }
+            }
         }
  
         $searchModel = new DesignationSearch();

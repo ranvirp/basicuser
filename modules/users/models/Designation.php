@@ -92,12 +92,12 @@ class Designation extends \app\modules\users\MyActiveRecord
 			    break;
 									
 			case 'designation_type_id':
-			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(DesignationType::find()->asArray()->all(),"id","name_".Yii::$app->language));
+			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(DesignationType::find()->asArray()->all(),"id","name_".Yii::$app->language), ['prompt'=>'Select DesignationType']);
 			    
 			    break;
 									
 			case 'level_id':
-			   return  $form->field($this,$attribute)->textInput();
+			   return  $form->field($this,$attribute)->dropDownList(\yii\helpers\ArrayHelper::map(Level::find()->asArray()->all(),"id","name_".Yii::$app->language), ['prompt'=>'Select Level']);
 			    
 			    break;
 									
@@ -192,11 +192,15 @@ class Designation extends \app\modules\users\MyActiveRecord
     }
     public function createUserAndRole()
      {
+        
         $role=$this->designationType->shortcode;
-        $username=$role.'_'.$this->level->name_en;
+        $en_name=$this->designationType->level->name_en;
+        $username = $role.'_'.$en_name;
+        //$username=$role.'_'.$this->level->name_en;
         $auth = Yii::$app->authManager;
         $username=preg_replace("/\s+/","",$username);
         $username=strtolower($username);
+       
         
 		if (!($rolecreated=$auth->getRole($role)))
 		{
@@ -212,6 +216,7 @@ class Designation extends \app\modules\users\MyActiveRecord
            // 'email' => $this->email,
               'username'=>$username,
         ]);
+                 
 		if ($usermodel) 
 		   return;//do nothing, user already exists
 		   //$usermodel->delete();
@@ -223,24 +228,28 @@ class Designation extends \app\modules\users\MyActiveRecord
 		     //$usermodel->role_id=2;
 		     $usermodel->email=$this->officer_email;
 		     $usermodel->status=User::STATUS_ACTIVE;
-		     if (!$usermodel->save())
+                     
+                  
+		     if ($usermodel->save())
 		      {
-		        print_r($usermodel->errors);
-		        exit;
+                        //$this=Designation::findOne($this->id);
+                        // $desig->officer_userid=$usermodel->id;
+                        $this->officer_userid=$usermodel->id;
+                        // print_r($desig);
+                        //exit;
+                        
+                       if (! $this->save())
+                        {
+                            print_r($this->errors);exit;
+                        }
+
 		      }
-		      else {
-		      //$this=Designation::findOne($this->id);
-		     // $desig->officer_userid=$usermodel->id;
-		     $this->officer_userid=$usermodel->id;
-		     // print_r($desig);
-		      //exit;
-		     if (! $this->save())
-		      {
-		        print_r($this->errors);exit;
-		      }
-		      
-		      }
-		   
+		      else 
+                      {
+                            print_r($usermodel->errors);
+                            exit;
+                      } 
+                 
      }
      public function beforeSave($insert)
      {
